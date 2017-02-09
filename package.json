@@ -1,0 +1,19 @@
+{
+  "name": "inverted-index",
+  "version": "1.0.0",
+  "description": "An inverted index application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-uibrahim/inverted-index.git"
+  },
+  "author": "Ibrahim usman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-uibrahim/inverted-index/issues"
+  },
+  "homepage": "https://github.com/andela-uibrahim/inverted-index#readme"
+}
