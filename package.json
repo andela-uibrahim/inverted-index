@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/andela-uibrahim/inverted-index/issues"
   },
-  "homepage": "https://github.com/andela-uibrahim/inverted-index#readme"
+  "homepage": "https://github.com/andela-uibrahim/inverted-index#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.7",
+    "gulp": "^3.9.1"
+  }
 }
