@@ -18,6 +18,10 @@
   "homepage": "https://github.com/andela-uibrahim/inverted-index#readme",
   "devDependencies": {
     "browser-sync": "^2.18.7",
-    "gulp": "^3.9.1"
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.8"
   }
 }
