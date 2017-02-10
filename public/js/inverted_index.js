@@ -1,4 +1,4 @@
-let inverted_index = () => {
-    return true;
+const invertedIndex = () => {
+  return true;
 };
 module.exports = inverted_index;
