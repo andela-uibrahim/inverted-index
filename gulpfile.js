@@ -15,6 +15,6 @@ gulp.task('watch', ['browser'], () => {
   gulp.watch('public/js/*.js', browserSync.reload);
 });
 
-gulp.task('default', ['build', 'testServerJs'], () => {
+gulp.task('travis', ['build', 'testServerJs'], () => {
   process.exit(0);
 });
