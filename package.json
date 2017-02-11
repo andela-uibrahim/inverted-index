@@ -19,8 +19,11 @@
   "devDependencies": {
     "browser-sync": "^2.18.7",
     "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.8",
     "jasmine": "^2.5.3"
