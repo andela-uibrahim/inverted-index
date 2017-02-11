@@ -32,9 +32,25 @@
  	- Open your browser to visit the [homepage] and follow the instructions there
  	- Upload valid json book files (that have a text and title property)
  	- Select an uploaded book file(s) from the selector and click create index
-  	- The index for the book(s) is/are shown in tabular format
+  	- The index for the book(s) is/are shown in tabular format as show bellow
+
+                Term      Doc_1  Doc_2
+                -------------------------
+                andela  |   +   |  +
+                epic    |   +   |
+                and     |   +   |  
+                four    |   +   |  +
+                c       |   +   |  
+                fellow  |       |  +
+                years   |       |  +
+                tia     |       |  +
+
   	- Search for a text or sequence of text in a selected file or all files
- 	- Click the search button and wait for the search results to be displayed
+ 	- Click the search button and wait for the search results to be displayed in this format
+                Term      Doc_1  Doc_2
+                -------------------------
+                andela  |   +   |  +
+                fellow  |   +   |
  
  ### Technologies
  	 node.js - For backendend development
