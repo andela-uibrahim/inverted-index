@@ -52,6 +52,7 @@
                 andela  |   +   |  +
                 fellow  |   +   |
  
+
  ### Technologies
  	 node.js - For backendend development
  	 Gulp - the streaming build system
