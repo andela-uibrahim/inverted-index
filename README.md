@@ -51,7 +51,6 @@
                 -------------------------
                 andela  |   +   |  +
                 fellow  |   +   |
- 
 
  ### Technologies
  	 node.js - For backendend development
