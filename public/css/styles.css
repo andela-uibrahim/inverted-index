@@ -1,0 +1,20 @@
+#about{
+	color:blue;
+	padding-left: 15%;
+}
+.blue{
+	background-color: #428bca;
+}
+.white{
+	background-color: white;
+	margin-top: 20px;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+#top{
+	height: 150px;
+}
+#small{
+	border-radius: 15px;
+	background-color: white;
+}

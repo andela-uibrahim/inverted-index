@@ -3,10 +3,104 @@
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>An inverted index application</title>
+
+        <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css" />
+    	<link rel="stylesheet" href="css/styles.css"/>
 	</head>
 
 	<body>
-		<div>we good to go ooooo</div>
+		<div class="container-fluid blue">
+			<div class="row" id="top">
+					
+			</div>
+
+			<div class="row">
+			<!-- section to upload your files -->
+
+				<div class="col-md-2">
+				</br></br></br>
+					<form class="form-group">
+						<input id="file" type="file" accept=".JSON" multiple>
+						<br><br>
+						<input id="btn" type="button" value="Process">
+					</form>
+				</div>
+			
+				<div class="col-md-8" id="small">
+					<div class="white">
+						<div class="panel panel-primary" style="border-radius: 6px">
+							<div class="panel-heading">
+								<h3 class="panel-title">The Inverted Index</h3>
+							</div>
+							<div id="About">
+								<h3>Background Information</h3>
+
+								<p>An Inverted Index is an Index Data Structure storing a mapping from content to location</p> 
+								<p>(i.e. a mapping of words or numbers to it's location in a database file).</p>
+								</br>
+
+								<h3>Why the project is useful</h3>
+
+								<ul>
+									<li><p>it can be used to search through books and match words in other words, it can be use as a plagiarism checker</p></li>
+								</ul>
+								</br>
+								
+								<h3>How users can get started with the project</h3>
+								<ul>
+									<li><p>Upload valid json book files (that have a text and title property)</p></li>
+									<li><p>Select an uploaded book file(s) from the selector and click create index</p></li>
+									<li><p>The index for the book(s) is/are shown in tabular format as show bellow</p></li>
+									<li><p>Search for a text or sequence of text in a selected file or all files</p></li>
+									<li><p>Click the search button and wait for the search results to be displayed in this format</p></li>
+								</ul>
+								</br>
+								<h3>Limitations of the project</h3>
+								<ul>
+								 	<li><p>Files must have a specific structure for index to be created</p></li>
+								</ul>
+							</div>			
+						</div>
+					</div>
+					</br>
+
+			<!-- inverted index result table -->
+					<div id="result">
+						<div id="expenses" class="tab-panel">
+							<div class="panel panel-primary white">
+								<div class="panel-heading">
+									<h3 class="panel-title">The Inverted Index</h3>
+								</div>
+								<div class="panel-body">
+									<div class="col-md-10 col-md-offset-1">
+										<table class="table table-striped table-bordered">
+											<thead>
+												<tr>
+													<th class="text-center">Word</th>
+													<th class="text-center">Doc_1</th>
+													<th class="text-center">Doc_2</th>
+												</tr>
+											</thead>
+											<tbody class="table-content">
+												<tr>
+													<td class="text-center"> ice creame</td>
+													<td class="text-center"><span class= "glyphicon glyphicon-ok"></span></td>
+													<td class="text-center"><span class= "glyphicon glyphicon-remove"></span></td>
+												</tr>    
+											</tbody>
+										</table>
+										<hr>
+									</div>  
+								</div>
+							</div> 
+						</div>  
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../lib/jquery/jquery-3.1.1.js"></script>
+		<script type="text/javascript" src="../lib/bootstrap/js/bootstrap.js"></script>
 	</body>
 </html>
