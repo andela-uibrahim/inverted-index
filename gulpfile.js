@@ -11,6 +11,7 @@ gulp.task('browser', () => {
 
 gulp.task('watch', ['browser'], () => {
   gulp.watch('public/index.html', browserSync.reload);
+  gulp.watch('public/templates/*.html', browserSync.reload);
   gulp.watch('public/css/*.css', browserSync.reload);
   gulp.watch('public/js/*.js', browserSync.reload);
 });

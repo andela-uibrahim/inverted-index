@@ -18,12 +18,7 @@
 			<div class="row">
 				<div class="col-md-2">
 					<br><br><br>
-					<form class="form-group side-men" ng-submit='submit()' ng-controller="homeController">
-						<input id="file" type="file" accept=".JSON" multiple>
-						<br><br>
-						<input id="btn" type="submit" value="Process">
-					</form>
-					<!-- <input id="btn" type="button" value="Process"> -->
+					
 				</div>
 			
 				<div class="col-md-8" id="small" >
@@ -34,13 +29,40 @@
 
 		<!-- section to upload your files -->		
 			<div class="col-md-2">
-				<input id="upload" type="file" accept=".JSON" multiple class="hidden" ='submit()'>
-				<button class="upload"><span class= "glyphicon glyphicon-open"></span>
+				<span class="modal-x hidden" data-toggle="modal" data-target="#myModal"></span>
+
+				<button class="process" data-toggle="tooltip" data-placement="top" title="Select file">
+					<span class= "glyphicon glyphicon-file"></span>
+				</button>
+
+				<input id="upload" type="file" accept=".JSON" multiple class="hidden" onchange='submit()'>
+				<button class="upload" data-toggle="tooltip" data-placement="top" title="Upload file"><span class= "glyphicon glyphicon-open"></span>
 					
 				</button>
 				
 			</div>			
 		</div>	
+
+		<div class="modal fade" tabindex="-1" id="myModal" role="dialog"  ng-controller="homeController">
+			  <div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+				      	<div class="modal-header">
+				        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        	<h4 class="modal-title">Modal title</h4>
+				      	</div>
+				      	<div class="modal-body">
+					        
+				       </div>
+			      		<div class="modal-footer">
+			      			<form ng-submit='submit()'>
+								<br><br>
+								<input id="btn" class="btn btn-primary" type="submit" value="Create Index">
+							</form>
+			        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      		</div>
+			    	</div><!-- /.modal-content -->
+			   </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 						
 
 		<script type="text/javascript" src="../lib/jquery/jquery-3.1.1.js"></script>

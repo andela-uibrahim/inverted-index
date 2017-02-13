@@ -21,7 +21,6 @@ myApp.config(($routeProvider) => {
   });
 });
 
-
 myApp.controller('homeController',
   ['$scope', '$location', ($scope, $location) => {
     $scope.submit = () => {
