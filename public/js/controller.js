@@ -22,9 +22,40 @@ myApp.config(($routeProvider) => {
 });
 
 myApp.controller('homeController',
-  ['$scope', '$location', function ($scope, $location) {
+  ['$scope', '$location', '$window', function ($scope, $location, $window) {
+  	const theBooks = [];
+
+
+
     $scope.submit = () => {
-      $location.path('/showIndex');
+
+    	//$scope.validate = validate();
+      if(2 > 1) {
+        files = document.getElementById('upload').files;
+        
+
+       	for (let i=0; i<files.length; i++) {
+       	var aPro = new Promise((resolve) => {
+	       		let reader = new FileReader();
+	       		reader.readAsText(files[i]);
+	       		reader.onload = function(e) {
+	       			theBooks.push(JSON.parse(e.target.result));
+	       			resolve(theBooks)
+	       		} 
+       		})
+       	}
+
+       	aPro.then((res) => {
+       		$scope.aqq = 'dsfsdf';
+       		console.log(res)
+       		$scope.books = res;
+       	});
+       	 //$location.path('/showIndex');
+	    }
+      else
+      { 
+        $window.alert('please Upload a valid file');
+      }
     };
   }]);
 
@@ -57,9 +88,6 @@ myApp.directive('indexTab', () => {
     	scope: {
     		tabObject: "="
     	},
-    	// link: function(scope, element , attr) {
-    	// 	console.log(scope.tabObject);
-    	// }
     });
-    });
+});
 
