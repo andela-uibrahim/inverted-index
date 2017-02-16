@@ -1,7 +1,6 @@
 # inverted-index
 [![Code Climate](https://codeclimate.com/repos/589cdef10f4d540461001a76/badges/6871b507f8dd13435d4a/gpa.svg)](https://codeclimate.com/repos/589cdef10f4d540461001a76/feed)
 [![Issue Count](https://codeclimate.com/repos/589cdef10f4d540461001a76/badges/6871b507f8dd13435d4a/issue_count.svg)](https://codeclimate.com/repos/589cdef10f4d540461001a76/feed)
-
 [![Coverage Status](https://coveralls.io/repos/github/andela-uibrahim/inverted-index/badge.svg?branch=chore%2F2%2Fsetting-up-continous-integration)](https://coveralls.io/github/andela-uibrahim/inverted-index?branch=chore%2F2%2Fsetting-up-continous-integration)
 [![Build Status](https://travis-ci.org/andela-uibrahim/inverted-index.svg?branch=master)](https://travis-ci.org/andela-uibrahim/inverted-index)
 
@@ -49,28 +48,28 @@
                 andela  |   +   |  +
                 fellow  |   +   |
 
- ### Technologies
- 	 node.js - For backendend development
- 	 Gulp - the streaming build system
-     AngularJS - for frontend development
- 	 Twitter Bootstrap - for responsive frontend design
- 	 karma - to automate testing
- 	 jasmine - for writing the tests
+### Technologies
+    - node.js - For backendend development
+ 	- Gulp - the streaming build system
+    - AngularJS - for frontend development
+ 	- Twitter Bootstrap - for responsive frontend design
+ 	- karma - to automate testing
+ 	- jasmine - for writing the tests
  
- ### How to setup the project/Installation/Configuration
+### How to setup the project/Installation/Configuration
  	- (will be updated)
  
- ### How to run tests
+### How to run tests
  	- (will be updated)
  
- ### Limitations of the project
+### Limitations of the project
  	- Files must have a specific structure for index to be created
  
- ### Contributing to the project
+### Contributing to the project
  	- **Ibrahim usman**
  
- ### Troubleshooting & FAQ
+### Troubleshooting & FAQ
  	[https://github.com/andela-uibrahim/inverted-index/issues](https://github.com/andela-uibrahim/inverted-index/issues)
  
- ### License
+### License
     -N/A
