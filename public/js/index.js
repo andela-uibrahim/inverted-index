@@ -14,7 +14,7 @@ myApp.config(($routeProvider) => {
     controller: 'tableController'
   })
 
-// search pages
+// // search pages
   .when('/searchIndex', {
     templateUrl: 'templates/search.html',
     controller: 'searchController'
@@ -22,9 +22,44 @@ myApp.config(($routeProvider) => {
 });
 
 myApp.controller('homeController',
-  ['$scope', '$location', ($scope, $location) => {
+  ['$scope', '$location', function ($scope, $location) {
     $scope.submit = () => {
       $location.path('/showIndex');
     };
   }]);
+
+myApp.controller('tableController',
+  ['$scope', function($scope){
+	    $scope.tabs = [{
+	  	word : "usman",
+	  	exist: true,
+	  	existB :false
+    },
+
+    {
+	  	word : "kazeem",
+	  	exist: true,
+	  	existB :true
+	    },
+     
+  	{
+    	word : "hassan",
+    	exist: false,
+    	existB :true
+      }
+     ];
+  }]);
+
+myApp.directive('indexTab', () => {
+    return({
+    	templateUrl: "templates/tabContent.html",
+    	replace: 'true',
+    	scope: {
+    		tabObject: "="
+    	},
+    	// link: function(scope, element , attr) {
+    	// 	console.log(scope.tabObject);
+    	// }
+    });
+    });
 

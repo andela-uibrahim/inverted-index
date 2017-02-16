@@ -1,0 +1,16 @@
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th class="text-center">Word</th>
+			<th class="text-center">Doc_1</th>
+			<th class="text-center">Doc_2</th>
+		</tr>
+	</thead>
+	<tbody class="table-content">
+		<tr ng-repeat="tab in tabObject">
+			<td class="text-center">{{tab.word}}</td>
+			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : tab.exist === true , 'glyphicon glyphicon-remove' : tab.exist === false}"></span></td>
+			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok': tab.existB === true , 'glyphicon glyphicon-remove' : tab.existB === false}"></span></td>
+		</tr>
+	</tbody>
+</table>
