@@ -1,90 +1,87 @@
 <html lang="en">
-	<head>
-	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>An inverted index application</title>
+<title>An inverted index application</title>
 
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
-    	<link rel="stylesheet" href="css/styles.css"/>
-	</head>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
 
-	<body ng-app="myApp">
-		<div class="container-fluid blue">
-			<div class="row" id="top">
-					
+<body ng-app="myApp">
+<div class="container-fluid blue">
+	<div class="row" id="top">
+			
+	</div>
+		<span ng-controller= "homeController">
+
+	<div class="row">
+		<div class="col-md-2">
+			<br><br><br>
+			
+		</div>
+	
+		<div class="col-md-8" id="small" >
+			<div class="white" ng-view>
+	
 			</div>
-              <span ng-controller= "homeController">
+		</div>
 
-			<div class="row">
-				<div class="col-md-2">
-					<br><br><br>
-					
+<!-- section to upload your files -->	
+	<div class="col-md-2" >
+		<span class="modal-x hidden" data-toggle="modal" data-target="#myModal"></span>
+
+		<button class="process" data-toggle="tooltip" data-placement="top" title="Select file" ng-click="toSelectFile()">
+			<span class= "glyphicon glyphicon-file"></span>
+		</button>
+
+		<input id="upload" type="file" accept=".JSON" multiple class="hidden">
+		<button class="upload" data-toggle="tooltip" data-placement="top" title="Upload file"><span class= "glyphicon glyphicon-open"></span>
+			
+		</button>
+		
+	</div>
+	
+	
+</div>	
+
+<div class="modal fade" tabindex="-1" id="myModal" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header alert alert-warning">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class=" "></h4>
 				</div>
-			
-				<div class="col-md-8" id="small" >
-					<div class="white" ng-view>
-		  
-					</div>
-				</div>
-
-		<!-- section to upload your files -->	
-			<div class="col-md-2" >
-				<span class="modal-x hidden" data-toggle="modal" data-target="#myModal"></span>
-
-				<button class="process" data-toggle="tooltip" data-placement="top" title="Select file" ng-click="toSelectFile()">
-					<span class= "glyphicon glyphicon-file"></span>
-				</button>
-
-				<input id="upload" type="file" accept=".JSON" multiple class="hidden">
-				<button class="upload" data-toggle="tooltip" data-placement="top" title="Upload file"><span class= "glyphicon glyphicon-open"></span>
-					
-				</button>
-				
-			</div>
-			
-			
-		</div>	
-
-		<div class="modal fade" tabindex="-1" id="myModal" role="dialog">
-			  <div class="modal-dialog" role="document">
-			    	<div class="modal-content">
-				      	<div class="modal-header">
-				        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        	<h4 class="modal-title">Modal title</h4>
-				      	</div>
-				      	<div class="modal-body">
-                            <select class="col-sm-4 col-sm-offset-2" style="height: 40px;">
-                                <option value="volvo" ng-repeat="file in books" style="height: 30px;">{{book.name}}</option>
-                                
-                            </select>
-                          <br><br><br>
-					        
-				       </div>
-			      		<div class="modal-footer">
-<!--			      			<form >-->
-								<br><br>
-								<input id="btn" ng-click='submit()' class="btn btn-primary" type="submit" value="Create Index">
-								<button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
-<!--							</form>-->
-			      		</div>
-			    	</div><!-- /.modal-content -->
-			   </div><!-- /.modal-dialog -->
-			   
-		</div><!-- /.modal -->
-      </span>
-          
-
-
+				<div class="modal-body">
+					<div class="col-sm-9 col-sm-offset-1 select" style = "color : #428bca;" ><h2 style= "padding-left: 20px;">Select File To process <span class="glyphicon glyphicon-cloud"></span></h></div>
+					<select class="col-sm-6 col-sm-offset-2 select" style="height: 40px;">
+						<option ng-repeat="file in books" value="{{file.name}}" style="height: 30px;">{{file.name +'  '+file.size +'Kb'}}</option>
 						
-
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-		<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-		<script src="https://code.angularjs.org/1.6.1/angular-route.min.js"></script>
-		<script type="text/javascript" src="js/app.js"></script>
-		<script type="text/javascript" src="js/inverted_index.js"></script>
-		<script type="text/javascript" src="js/controller.js"></script>
-	</body>
+					</select>
+					
+				</div>
+				<div class="modal-footer" style= "margin-top: 100px; background-color: #428bca; height: 100px !important;">
+<!--			      			<form >-->
+						<br><br>
+						<input id="btn" ng-click='submit()' class="btn btn-default" type="submit" value="Create Index">
+						<button type="button" id="close" class="btn btn-danger" data-dismiss="modal">Close</button>
+<!--							</form>-->
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+		
+</div><!-- /.modal -->
+</span>
+	
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.6.1/angular-route.min.js"></script>
+<script type="test/javascript" src="js/helper.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/inverted_index.js"></script>
+<script type="text/javascript" src="js/controller.js"></script>
+</body>
 </html>
