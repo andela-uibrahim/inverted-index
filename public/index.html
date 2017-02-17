@@ -15,6 +15,8 @@
 			<div class="row" id="top">
 					
 			</div>
+              <span ng-controller= "homeController">
+
 			<div class="row">
 				<div class="col-md-2">
 					<br><br><br>
@@ -27,11 +29,11 @@
 					</div>
 				</div>
 
-		<!-- section to upload your files -->		
-			<div class="col-md-2">
+		<!-- section to upload your files -->	
+			<div class="col-md-2" >
 				<span class="modal-x hidden" data-toggle="modal" data-target="#myModal"></span>
 
-				<button class="process" data-toggle="tooltip" data-placement="top" title="Select file">
+				<button class="process" data-toggle="tooltip" data-placement="top" title="Select file" ng-click="toSelectFile()">
 					<span class= "glyphicon glyphicon-file"></span>
 				</button>
 
@@ -45,7 +47,6 @@
 			
 		</div>	
 
-		<div ng-controller="homeController">
 		<div class="modal fade" tabindex="-1" id="myModal" role="dialog">
 			  <div class="modal-dialog" role="document">
 			    	<div class="modal-content">
@@ -54,21 +55,26 @@
 				        	<h4 class="modal-title">Modal title</h4>
 				      	</div>
 				      	<div class="modal-body">
+                            <select class="col-sm-4 col-sm-offset-2" style="height: 40px;">
+                                <option value="volvo" ng-repeat="file in books" style="height: 30px;">{{book.name}}</option>
+                                
+                            </select>
+                          <br><br><br>
 					        
 				       </div>
 			      		<div class="modal-footer">
-			      			<form ng-submit='submit()'>
+<!--			      			<form >-->
 								<br><br>
-								<input id="btn" class="btn btn-primary" type="submit" value="Create Index">
+								<input id="btn" ng-click='submit()' class="btn btn-primary" type="submit" value="Create Index">
 								<button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
-							</form>
+<!--							</form>-->
 			      		</div>
 			    	</div><!-- /.modal-content -->
 			   </div><!-- /.modal-dialog -->
 			   
 		</div><!-- /.modal -->
-						{{aqq}}
-			</div>
+      </span>
+          
 
 
 						

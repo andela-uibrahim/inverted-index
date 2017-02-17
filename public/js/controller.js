@@ -11,7 +11,7 @@ myApp.config(($routeProvider) => {
    // index pages
   .when('/showIndex', {
     templateUrl: 'templates/table.html',
-    controller: 'tableController'
+    controller: 'homeController'
   })
 
 // // search pages
@@ -23,71 +23,66 @@ myApp.config(($routeProvider) => {
 
 myApp.controller('homeController',
   ['$scope', '$location', '$window', function ($scope, $location, $window) {
-  	const theBooks = [];
+    let filesArray;
+    $scope.books = [];
+    document.getElementById('upload')
+        .addEventListener('change', () => {
+          filesArray = document.getElementById('upload').files;
+        });
 
-
-
-    $scope.submit = () => {
-
-    	//$scope.validate = validate();
-      if(2 > 1) {
-        files = document.getElementById('upload').files;
-        
-
-       	for (let i=0; i<files.length; i++) {
-       	var aPro = new Promise((resolve) => {
-	       		let reader = new FileReader();
-	       		reader.readAsText(files[i]);
-	       		reader.onload = function(e) {
-	       			theBooks.push(JSON.parse(e.target.result));
-	       			resolve(theBooks)
-	       		} 
-       		})
-       	}
-
-       	aPro.then((res) => {
-       		$scope.aqq = 'dsfsdf';
-       		console.log(res)
-       		$scope.books = res;
-       	});
-       	 //$location.path('/showIndex');
-	    }
-      else
-      { 
-        $window.alert('please Upload a valid file');
+    $scope.toSelectFile = () => {
+      for (let i = 0; i < filesArray.length; i++) {
+        const book = {};
+        book.name = filesArray[i].name;
+        book.size = filesArray[i].size;
+        book.type = filesArray[i].type;
+        $scope.books.push(book);
+        const reader = new FileReader();
+        reader.readAsText(filesArray[i]);
+        reader.onload = function (e) {
+          book.content = JSON.parse(e.target.result);
+        };
       }
     };
-  }]);
 
-myApp.controller('tableController',
-  ['$scope', function($scope){
-	    $scope.tabs = [{
-	  	word : "usman",
-	  	exist: true,
-	  	existB :false
+    $scope.submit = () => {
+      console.log($scope.books[0].name);
+      // $location.path('/showIndex')
+    };
+
+    $scope.tabs = [{
+      word: 'usman',
+      exist: true,
+      existB: false
     },
 
     {
-	  	word : "kazeem",
-	  	exist: true,
-	  	existB :true
-	    },
-     
-  	{
-    	word : "hassan",
-    	exist: false,
-    	existB :true
-      }
-     ];
+      word: 'kazeem',
+      exist: true,
+      existB: true
+    },
+    {
+      word: 'hassan',
+      exist: false,
+      existB: true
+    }
+    ];
+
+   // $scope.selectFile =function
+
+
+//      {
+//        $window.alert('please Upload a valid file');
+//      }
+//    };
   }]);
 
-myApp.directive('indexTab', () => {
-    return({
-    	templateUrl: "templates/tabContent.html",
-    	replace: 'true',
-    	scope: {
-    		tabObject: "="
-    	},
-    });
-});
+
+myApp.directive('indexTab', () => ({
+  templateUrl: 'templates/tabContent.html',
+  replace: 'true',
+  scope: {
+    tabObject: '='
+  },
+}));
 
