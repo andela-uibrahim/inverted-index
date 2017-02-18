@@ -1,5 +1,5 @@
-describe('A suite', () => {
-  it('contains spec with an expectation', () => {
-    expect(invertedIndex()).toBe(true);
+describe('Test for OOP techniques', () => {
+  it('expect "type of invertedIndex" to be a "function"', () => {
+    expect(typeof (InvertedIndex).toEqual('function'));
   });
 });

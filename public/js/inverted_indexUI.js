@@ -22,44 +22,47 @@ myApp.config(($routeProvider) => {
 });
 
 myApp.controller('homeController',
-  ['$scope', '$location', '$window', function ($scope, $location, $window) {
-   // const helper = new Utility();
-
+  ['$scope', '$location', function ($scope, $location) {
     let filesArray;
+    let content;
+    let book;
     $scope.books = [];
     const contents = [];
+    $scope.selected = 0;
     document.getElementById('upload')
         .addEventListener('change', () => {
           filesArray = document.getElementById('upload').files;
         });
-    // $scope.getSelectedOption = () => {
-    //   const selected = document.getElementById('selectFile');
-    //   const selectedValue = selected.options[selected.selectedIndex].value;
-    //       if (selectedValue == "selectcard")
-    //     {
-    //       alert("Please select a card type");
-    //     }
-    //   }
     $scope.toSelectFile = () => {
       for (let i = 0; i < filesArray.length; i++) {
-        const book = {};
-        book.name = filesArray[i].name;
-        book.size = filesArray[i].size;
-        book.type = filesArray[i].type;
-        $scope.books.push(book);
-        const reader = new FileReader();
-        reader.readAsText(filesArray[i]);
-        reader.onload = (e) => {
-          const content = JSON.parse(e.target.result);
-          contents.push(content);
-        };
+        let fileType;
+        const valid = fileIsValid(filesArray[i]);
+        if (valid) {
+          book = {};
+          book.name = filesArray[i].name;
+          book.size = filesArray[i].size;
+          $scope.books.push(book);
+          const reader = new FileReader();
+          reader.readAsText(filesArray[i]);
+          reader.onload = (e) => {
+            content = JSON.parse(e.target.result);
+            contents.push(content);
+          };
+        } else {
+          console.log('invalid file type');
+        }
       }
     };
 
     $scope.submit = () => {
-      console.log($scope.books);
-      console.log(filesArray[0]);
-      $location.path('/showIndex')
+      let con = 0;
+      $scope.books.forEach((book) => {
+        book.content = contents[con];
+        con += 1;
+        if (book.name === $scope.selected) {
+          selectedFile = book;
+        }
+      });
     };
 
     $scope.tabs = [{
@@ -82,14 +85,6 @@ myApp.controller('homeController',
       existC: true
     }
     ];
-
-   // $scope.selectFile =function
-
-
-//      {
-//        $window.alert('please Upload a valid file');
-//      }
-//    };
   }]);
 
 
