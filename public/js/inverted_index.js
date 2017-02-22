@@ -1,19 +1,24 @@
 class InvertedIndex {
-  creatIndex(book) {
-    this.book = book;
-    this.index = {};
-    for (let i = 0; i < book.length; i++) {
-      let words = (book[i].title + ' ' + book[i].text).split(' ');
-      for (let j = 0; j < words.length; j++) {
-        if (this.index[words[j]]) {
-          this.index[words[j]].push(i);
-        } else {
-          this.index[words[j]] = [];
-          this.index[words[j]].push(i);
-        }
-      }
-    }
+  constructor() {
+    this.wordMap = {};
+  }
 
-    console.log(this.index);
+  createIndex(tokens, filteredContents) {
+    tokens.forEach((word) => {
+      filteredContents.forEach((book, index) => {
+        if (book.includes(word)) {
+          if (!this.wordMap[word]) {
+            this.wordMap[word] = [true];
+          } else {
+            this.wordMap[word].push(true);
+          }
+        } else if (!this.wordMap[word]) {
+          this.wordMap[word] = [false];
+        } else {
+          this.wordMap[word].push(false);
+        }
+      });
+    });
+    return this.wordMap;
   }
 }

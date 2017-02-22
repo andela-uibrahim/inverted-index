@@ -1,3 +1,8 @@
 /node_modules
 /lib
+<<<<<<< HEAD
 public/bootstrap
+=======
+/public/bootstrap
+/coverage
+>>>>>>> feature/1/setting-up-UI
