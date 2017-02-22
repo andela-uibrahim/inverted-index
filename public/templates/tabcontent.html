@@ -8,11 +8,11 @@
 		</tr>
 	</thead>
 	<tbody class="table-content">
-		<tr ng-repeat="tab in tabObject">
-			<td class="text-center">{{tab.word}}</td>
-			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : tab.exist === true , 'glyphicon glyphicon-remove' : tab.exist === false}"></span></td>
-			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok': tab.existB === true , 'glyphicon glyphicon-remove' : tab.existB === false}"></span></td>
-			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok': tab.existC === true , 'glyphicon glyphicon-remove' : tab.existC === false}"></span></td>
+		<tr ng-repeat="(word, wordArr) in tabObject">
+			<td class="text-center">{{word}}</td>
+			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : wordArr[0] === true , 'glyphicon glyphicon-remove' : wordArr[0] === false}"></span></td>
+			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : wordArr[1] === true , 'glyphicon glyphicon-remove' : wordArr[1] === false}"></span></td>
+			<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : wordArr[2] === true , 'glyphicon glyphicon-remove' : wordArr[2] === false}"></span></td>
 		</tr>
 	</tbody>
 </table>

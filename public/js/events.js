@@ -1,5 +1,7 @@
 const invertedIndex = () => true;
 
+let filesArray;
+
 $('.upload').click(() => {
   $('#upload').trigger('click');
 });
@@ -13,3 +15,7 @@ $('#btn').click(() =>{
 	$('#close').trigger('click');
 })
 
+document.getElementById('upload')
+  .addEventListener('change', () => {
+    filesArray = document.getElementById('upload').files;
+  });

@@ -23,31 +23,44 @@ myApp.config(($routeProvider) => {
 
 myApp.controller('homeController',
   ['$scope', '$location', function ($scope, $location) {
-    let filesArray;
     let content;
     let book;
+    let selectedFile;
     $scope.books = [];
     const contents = [];
     $scope.selected = 0;
-    document.getElementById('upload')
-        .addEventListener('change', () => {
-          filesArray = document.getElementById('upload').files;
-        });
+    const invertedIndex = new InvertedIndex();
+    const updateFiles = (currentFile) => {
+      book.size = currentFile.size;
+      $scope.books.push(book);
+      const reader = new FileReader();
+      reader.readAsText(currentFile);
+      reader.onload = (e) => {
+        content = JSON.parse(e.target.result);
+        contents.push(content);
+      };
+    };
+
     $scope.toSelectFile = () => {
       for (let i = 0; i < filesArray.length; i++) {
-        let fileType;
         const valid = fileIsValid(filesArray[i]);
         if (valid) {
           book = {};
           book.name = filesArray[i].name;
-          book.size = filesArray[i].size;
-          $scope.books.push(book);
-          const reader = new FileReader();
-          reader.readAsText(filesArray[i]);
-          reader.onload = (e) => {
-            content = JSON.parse(e.target.result);
-            contents.push(content);
-          };
+          let currentFile = filesArray[i];
+          if ($scope.books === []) {
+            updateFiles(currentFile);
+          } else if ($scope.books !== []) {
+            let counter = 0;
+            $scope.books.forEach((j) => {
+              if (j.name === book.name) {
+                counter += 1;
+              }
+            });
+            if (counter === 0) {
+              updateFiles(currentFile);
+            }
+          }
         } else {
           console.log('invalid file type');
         }
@@ -63,30 +76,13 @@ myApp.controller('homeController',
           selectedFile = book;
         }
       });
+      const selectedBook = selectedFile.content;
+      const filteredContents = filterBookContents(selectedBook);
+      const tokens = getToken(filteredContents);
+      $scope.tabs = invertedIndex.createIndex(tokens, filteredContents);
+      $location.path('/showIndex');
     };
-
-    $scope.tabs = [{
-      word: 'usman',
-      exist: true,
-      existB: false,
-      existC: true
-    },
-
-    {
-      word: 'kazeem',
-      exist: true,
-      existB: true,
-      existC: false
-    },
-    {
-      word: 'hassan',
-      exist: false,
-      existB: true,
-      existC: true
-    }
-    ];
   }]);
-
 
 myApp.directive('indexTab', () => ({
   templateUrl: 'templates/tabContent.html',
