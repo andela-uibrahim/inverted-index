@@ -39,6 +39,33 @@ describe('fileIsValid',
    });
  });
 
+describe('validateFileContents',
+ () => {
+   let book1, book2, book3, book4;
+   beforeEach(() => {
+     book1 = [{ title: 'Alice , / ?', text: 'enters a a.' },
+     { title: 'Fellowship )&* ...', text: 'wizard on on' },
+     { title: 'Thee + = - ee', text: 'un un usuals' }];
+     book2 = { men: 'kskkskskskkskskskksksk' };
+     book3 = { boy: 'usman', girl: 'dammy' };
+     book4 = 'this is the way we roll around here';
+   });
+
+   it('should return boolean for a valid json file input', () => {
+     expect(typeof (validFileContent(book1))).toBe('boolean');
+   });
+
+   it('should return true for valid file contents', () => {
+     expect(validFileContent(book1)).toBe(true);
+   });
+
+   it('should return false for an invalid data format', () => {
+     expect(validFileContent(book2)).toBe(false);
+     expect(validFileContent(book3)).toBe(false);
+     expect(validFileContent(book4)).toBe(false);
+   });
+ });
+
 describe('filterBookContents',
  () => {
    let book1;

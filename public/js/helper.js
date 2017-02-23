@@ -6,6 +6,9 @@ const fileIsValid = function (file) {
 };
 
 const validFileContent = (book) => {
+  if (!(book instanceof Array)) {
+    return false;
+  }
   for (let i = 0; i < book.length; i++) {
     if ((book[i].title === undefined) || (book[i].text === undefined)) {
       return false;
