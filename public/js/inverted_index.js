@@ -19,6 +19,7 @@ class InvertedIndex {
         }
       });
     });
+    console.log(this.wordMap);
     return this.wordMap;
   }
 }

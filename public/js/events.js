@@ -11,7 +11,7 @@ $('.process').click(() => {
 });
 $('#btn').click(() =>{
 	$('#close').trigger('click');
-})
+});
 
 document.getElementById('upload')
   .addEventListener('change', () => {
