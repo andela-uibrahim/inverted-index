@@ -13,7 +13,7 @@ const validFileContent = (book) => {
     if ((book[i].title === undefined) || (book[i].text === undefined)) {
       return false;
     }
-  }
+  };
   return true;
 };
 
