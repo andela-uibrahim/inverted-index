@@ -101,7 +101,7 @@ describe('comebineAndSortArray',
      expect(typeof (comebineAndSortArrays(book1))).toBe(typeof ([]));
    });
 
-   it('should return "an array of books with filtered contents"', () => {
+   it('should return "an array of comebined and sorted contents"', () => {
      expect(comebineAndSortArrays(book1)).toEqual(['alice', 'enters', 'fellowship', 'thee', 'usuals', 'wizard']);
    });
  });
