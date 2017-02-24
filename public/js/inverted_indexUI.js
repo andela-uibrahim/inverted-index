@@ -56,17 +56,15 @@ myApp.controller('homeController',
       }
     };
     $scope.getSearchResults= () => {
-      if ($scope.selected === "All") {
-        // $scope.createIndex();
-        // const filteredWords = filterContent($scope.searchWords);
-        // const tokens = removeDuplicates(filteredWords);
-        // console.log(invertedIndex.searchIndex(tokens, $scope.tabs));
-        console.log("i am here ohhh", $scope.selected);
+      if ($scope.selected === 'All') {
+        console.log('i am here ohhh', $scope.selected);
       } else {
         $scope.createIndex();
         const filteredWords = filterContent($scope.searchWords);
         const tokens = removeDuplicates(filteredWords);
-        console.log(invertedIndex.searchIndex(tokens, $scope.tabs));
+        $scope.search = invertedIndex.searchIndex(tokens, $scope.tabs);
+        console.log($scope.search);
+        $location.path('/searchIndex');
       }
     };
   }]);
@@ -76,6 +74,14 @@ myApp.directive('indexTab', () => ({
   replace: 'true',
   scope: {
     tabObject: '='
+  },
+}));
+
+myApp.directive('searchResult', () => ({
+  templateUrl: 'templates/searchContent.html',
+  replace: 'true',
+  scope: {
+    searchObject: '='
   },
 }));
 

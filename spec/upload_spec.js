@@ -20,6 +20,29 @@ describe('Test if the object exist and new instances can be created from it',
   });
  });
 
+describe('Test the create index functionality',
+ () => {
+   let firstContent; let secondContent; let filteredContents;
+   let invertedIndex;
+   beforeEach(() => {
+     invertedIndex = new InvertedIndex();
+     firstContent = ['hello', 'world'];
+     secondContent = ['hello', 'bayo'];
+     filteredContents = [firstContent, firstContent, secondContent]
+   });
+
+   it('should return "object" when its type is checked', () => {
+     expect(typeof (invertedIndex.createIndex(firstContent, 
+     filteredContents, invertedIndex.checkForIndex))).toBe('object');
+   });
+
+   it('should create an object once the class is declared', () => {
+     expect(invertedIndex.createIndex(firstContent, 
+     filteredContents, invertedIndex.checkForIndex)).toEqual({'hello': [true,true,true], 'world':[true,true,false]});
+   });
+ });
+
+ 
 describe('fileIsValid',
  () => {
    let file1; let file2; let file3; let file4;
@@ -101,19 +124,33 @@ describe('getTokens',
    });
  });
 
-describe('removeDuplicates',
+describe('removeDuplicatesInArray',
  () => {
    it('should return " array " sorted non-repeated/unique tokens present' +
      'in the filterBookContents', () => {
-     expect(typeof (removeDuplicates([['alice', 'alice', 'world'],
+     expect(typeof (removeDuplicatesInArray([['alice', 'alice', 'world'],
        ['hello', 'hello', 'world'], ['alice',
          'world', 'world']]))).toBe(typeof ([]));
    });
 
    it('should return "an array of books with filtered contents"', () => {
-     expect(removeDuplicates([['alice', 'alice', 'world'],
+     expect(removeDuplicatesInArray([['alice', 'alice', 'world'],
        ['hello', 'hello', 'world'], ['alice', 'world',
          'world']])).toEqual([['alice', 'world'], ['hello', 'world'],
           ['alice', 'world']]);
+   });
+ });
+
+describe('removeDuplicatesInArray',
+ () => {
+   it('should return " array " sorted non-repeated/unique tokens present' +
+     'in the filterBookContents', () => {
+     expect(typeof (removeDuplicates(['alice', 'alice',
+       'world']))).toBe(typeof ([]));
+   });
+
+   it('should return "an array of books with filtered contents"', () => {
+     expect(removeDuplicates(['alice', 'alice',
+       'world'])).toEqual(['alice', 'world']);
    });
  });
