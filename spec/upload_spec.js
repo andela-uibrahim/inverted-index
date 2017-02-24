@@ -42,7 +42,7 @@ describe('Test the create index functionality',
    });
  });
 
- 
+
 describe('fileIsValid',
  () => {
    let file1; let file2; let file3; let file4;
@@ -89,6 +89,22 @@ describe('validateFileContents',
    });
  });
 
+describe('comebineAndSortArray',
+ () => {
+   let book1;
+   beforeEach(() => {
+     book1 = [['alice', 'enters'], ['fellowship', 'wizard'],
+     ['thee','usuals']];
+   });
+
+   it('should return " array " for a valid json file input', () => {
+     expect(typeof (comebineAndSortArrays(book1))).toBe(typeof ([]));
+   });
+
+   it('should return "an array of books with filtered contents"', () => {
+     expect(comebineAndSortArrays(book1)).toEqual(['alice', 'enters', 'fellowship', 'thee', 'usuals', 'wizard']);
+   });
+ });
 describe('filterBookContents',
  () => {
    let book1;
