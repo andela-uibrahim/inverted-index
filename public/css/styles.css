@@ -9,6 +9,11 @@
 	background-repeat: repeat;
 	height: auto;
 }
+.search-input{
+	margin-top: 10px;
+	width: 300px;  
+}
+
 .white{
 	background-color: white;
 	margin-top: 20px;

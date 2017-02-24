@@ -17,24 +17,27 @@ myApp.config(($routeProvider) => {
 // // search pages
   .when('/searchIndex', {
     templateUrl: 'templates/search.html',
-    controller: 'searchController'
+    controller: 'homeController'
   });
 });
 
 myApp.controller('homeController',
   ['$scope', '$location', function ($scope, $location) {
-    let selectedFile;
+    let selectedFile; let filesArray; const contents = [];
     $scope.books = [];
-    const contents = [];
     $scope.cont = [];
     $scope.selected = 0;
+    $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
-
-    $scope.toSelectFile = () => {
-      uploadFiles($scope.books, filesArray, $scope.cont);
+    $scope.fileNameChanged = (ele) => {
+      $scope.$apply(() => {
+        filesArray = ele.files;
+        uploadFiles($scope.books, filesArray, $scope.cont);
+      });
     };
 
-    $scope.submit = () => {
+    $scope.createIndex = () => {
+      $scope.tabs = [];
       $scope.books.map((book, index) => {
         book.content = $scope.cont[index];
         if (book.name === $scope.selected) {
@@ -46,10 +49,24 @@ myApp.controller('homeController',
       if (validateContent) {
         const filteredContents = filterBookContents(selectedBook);
         const tokens = getToken(filteredContents);
-        $scope.tabs = invertedIndex.createIndex(tokens, filteredContents);
+        $scope.tabs = invertedIndex.createIndex(tokens, filteredContents, invertedIndex.checkForIndex);
         $location.path('/showIndex');
       } else {
         console.log('invalid file content formart');
+      }
+    };
+    $scope.getSearchResults= () => {
+      if ($scope.selected === "All") {
+        // $scope.createIndex();
+        // const filteredWords = filterContent($scope.searchWords);
+        // const tokens = removeDuplicates(filteredWords);
+        // console.log(invertedIndex.searchIndex(tokens, $scope.tabs));
+        console.log("i am here ohhh", $scope.selected);
+      } else {
+        $scope.createIndex();
+        const filteredWords = filterContent($scope.searchWords);
+        const tokens = removeDuplicates(filteredWords);
+        console.log(invertedIndex.searchIndex(tokens, $scope.tabs));
       }
     };
   }]);

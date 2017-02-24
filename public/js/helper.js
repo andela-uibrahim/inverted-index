@@ -1,4 +1,4 @@
-const fileIsValid = function (file) {
+const fileIsValid = (file) => {
   if (!file.name.toLowerCase().match(/\.json$/)) {
     return false;
   }
@@ -13,41 +13,47 @@ const validFileContent = (book) => {
     if ((book[i].title === undefined) || (book[i].text === undefined)) {
       return false;
     }
-  };
+  }
   return true;
 };
-
-const removeDuplicates = (filteredDocArray) => {
+const removeDuplicates = (doc) => {
+  const newList = doc.filter((word, index) =>
+    doc.indexOf(word) === index);
+  return newList;
+};
+const removeDuplicatesInArray = (filteredDocArray) => {
   const filteredContents = [];
-  filteredDocArray.forEach((y) => {
-    const newList = y.filter((word, index) =>
-    y.indexOf(word) === index);
-    filteredContents.push(newList);
+  filteredDocArray.forEach((doc) => {
+    filteredContents.push(removeDuplicates(doc));
   });
   return filteredContents;
 };
-
-
+const filterContent = (title, text) => {
+  text = text || '';
+  let words = (`${title} ${text}`)
+    .replace(/[.,/#!+$%^&@*?;:'{}=\-_`~()]/g, '').toLowerCase().split(' ');
+  words = words.filter(str => /\S/.test(str));
+  return words;
+};
 const filterBookContents = (selectedBook) => {
   const filteredDocArray = [];
-  selectedBook.forEach((x) => {
-    let words = (`${x.title} ${x.text}`)
-    .replace(/[.,/#!+$%^&@*?;:'{}=\-_`~()]/g, '').toLowerCase().split(' ');
-    words = words.filter(str => /\S/.test(str));
-    filteredDocArray.push(words);
+  selectedBook.forEach((content) => {
+    filteredDocArray.push(filterContent(content.title, content.text));
   });
-  return removeDuplicates(filteredDocArray);
+  return removeDuplicatesInArray(filteredDocArray);
 };
 
-
-const getToken = (filteredContents) => {
+const comebineAndSortArrays = (filteredContents) => {
   let allStr = '';
   filteredContents.forEach((z) => {
     allStr += `${z.join(' ')} `;
   });
-  const freshArray = allStr.trim().split(' ').sort();
-  const tokens = freshArray.filter((word, index) =>
-  freshArray.indexOf(word) === index);
+  return allStr.trim().split(' ').sort();
+};
+
+const getToken = (filteredContents) => {
+  const freshArray = comebineAndSortArrays(filteredContents);
+  const tokens = removeDuplicates(freshArray);
   return tokens;
 };
 

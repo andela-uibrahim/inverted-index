@@ -24,6 +24,14 @@
 		</div>
 	
 		<div class="col-md-8" id="small" >
+			<button type="button" id="searchWords" ng-click ="getSearchResults()" class="btn btn-primary pull-right" style="height: 35px; margin-top: 10px; margin-right:15px;" data-dismiss="modal">Search</button>
+			<select class="pull-right select" style="height: 35px; margin-top: 10px; width : 100px; margin-left:35px;  margin-right:15px; border-radius: 5px" ng-model="selected">
+				<option class="selFile" value ="All">All files</option>
+				<option class="selFile" ng-repeat="file in books" value="{{file.name}}" style="height: 30px;">{{file.name +'  '+file.size +'Kb'}}</option>
+			</select>
+			<input type="text" class="form-control search-input pull-right" ng-model="searchWords" id="search" placeholder="search words">
+			<br><br>
+
 			<div class="white" ng-view>
 	
 			</div>
@@ -33,11 +41,11 @@
 	<div class="col-md-2" >
 		<span class="modal-x hidden" data-toggle="modal" data-target="#myModal"></span>
 
-		<button class="process" data-toggle="tooltip" data-placement="top" title="Select file" ng-click="toSelectFile()">
+		<button class="process" data-toggle="tooltip" data-placement="top" title="Select file">
 			<span class= "glyphicon glyphicon-file"></span>
 		</button>
 
-		<input id="upload" type="file" accept=".JSON" multiple class="hidden">
+		<input id="upload" type="file" accept=".JSON" multiple class="hidden" onchange="angular.element(this).scope().fileNameChanged(this)">
 		<button class="upload" data-toggle="tooltip" data-placement="top" title="Upload file"><span class= "glyphicon glyphicon-open"></span>
 			
 		</button>
@@ -65,7 +73,7 @@
 				<div class="modal-footer" style= "margin-top: 100px; background-color: #428bca; height: 100px !important;">
 <!--			      			<form >-->
 						</br></br>
-						<input id="btn" ng-click='submit()' class="btn btn-default" type="submit" value="Create Index">
+						<input id="btn" ng-click='createIndex()' class="btn btn-default" type="submit" value="Create Index">
 						<button type="button" id="close" class="btn btn-danger" data-dismiss="modal">Close</button>
 <!--							</form>-->
 				</div>

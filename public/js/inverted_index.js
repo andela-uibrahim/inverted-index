@@ -3,23 +3,39 @@ class InvertedIndex {
     this.wordMap = {};
   }
 
-  createIndex(tokens, filteredContents) {
-    tokens.forEach((word) => {
-      filteredContents.forEach((book, index) => {
-        if (book.includes(word)) {
-          if (!this.wordMap[word]) {
-            this.wordMap[word] = [true];
-          } else {
-            this.wordMap[word].push(true);
-          }
-        } else if (!this.wordMap[word]) {
-          this.wordMap[word] = [false];
+  checkForIndex(word, filteredContents, wordMap) {
+    filteredContents.forEach((book) => {
+      if (book.includes(word)) {
+        if (!wordMap[word]) {
+          wordMap[word] = [true];
         } else {
-          this.wordMap[word].push(false);
+          wordMap[word].push(true);
         }
-      });
+      } else if (!wordMap[word]) {
+        wordMap[word] = [false];
+      } else {
+        wordMap[word].push(false);
+      }
     });
-    console.log(this.wordMap);
+  }
+
+  createIndex(tokens, filteredContents, checkForIndex) {
+    tokens.forEach((word) => {
+      checkForIndex(word, filteredContents, this.wordMap);
+    });
     return this.wordMap;
+  }
+
+
+  searchIndex(tokens, indexx) {
+    const searchMap = {};
+    tokens.forEach((word) => {
+      if (word in indexx) {
+        searchMap[word] = indexx[word];
+      } else {
+        searchMap[word] = [false, false, false];
+      }
+    });
+    return searchMap;
   }
 }
