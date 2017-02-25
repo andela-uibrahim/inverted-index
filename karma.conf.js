@@ -14,7 +14,12 @@ module.exports = (config) => {
 
 
     // list of files / patterns to load in the browser
-    files: ['public/js/*.js',
+    files: ['lib/jquery/jquery-3.1.1.js',
+      'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js',
+      'https://code.angularjs.org/1.6.1/angular-route.min.js',
+      'public/js/helper.js',
+      'public/js/inverted_index.js',
+      'public/js/inverted_indexUI.js',
       'spec/*.js'
     ],
 
@@ -62,7 +67,7 @@ module.exports = (config) => {
 
 // start these browsers
 // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox'],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode
