@@ -1,6 +1,5 @@
 class InvertedIndex {
   constructor() {
-    this.wordMap = {};
   }
 
   checkForIndex(word, filteredContents, wordMap) {
@@ -20,6 +19,7 @@ class InvertedIndex {
   }
 
   createIndex(tokens, filteredContents, checkForIndex) {
+    this.wordMap = {};
     tokens.forEach((word) => {
       checkForIndex(word, filteredContents, this.wordMap);
     });

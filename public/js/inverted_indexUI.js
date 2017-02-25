@@ -22,7 +22,7 @@ myApp.config(($routeProvider) => {
 });
 
 myApp.controller('homeController',
-  ['$scope', '$location', function ($scope, $location) {
+  ['$scope', '$location', function ($scope, $location, $route) {
     let selectedFile; let filesArray; const contents = [];
     $scope.books = [];
     $scope.cont = [];
@@ -49,7 +49,8 @@ myApp.controller('homeController',
       if (validateContent) {
         const filteredContents = filterBookContents(selectedBook);
         const tokens = getToken(filteredContents);
-        $scope.tabs = invertedIndex.createIndex(tokens, filteredContents, invertedIndex.checkForIndex);
+        $scope.tabs = invertedIndex.createIndex(tokens,
+        filteredContents, invertedIndex.checkForIndex);
         $location.path('/showIndex');
       } else {
         console.log('invalid file content formart');
@@ -63,7 +64,6 @@ myApp.controller('homeController',
         const filteredWords = filterContent($scope.searchWords);
         const tokens = removeDuplicates(filteredWords);
         $scope.search = invertedIndex.searchIndex(tokens, $scope.tabs);
-        console.log($scope.search);
         $location.path('/searchIndex');
       }
     };
