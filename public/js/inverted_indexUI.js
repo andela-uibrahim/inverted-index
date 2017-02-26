@@ -52,20 +52,30 @@ myApp.controller('homeController',
         $scope.tabs = invertedIndex.createIndex(tokens,
         filteredContents, invertedIndex.checkForIndex);
         $location.path('/showIndex');
+        return $scope.tabs;
       } else {
         console.log('invalid file content formart');
       }
     };
     $scope.getSearchResults= () => {
+      $scope.tabs4all= [];
+      const filteredWords = filterContent($scope.searchWords);
+      const tokens = removeDuplicates(filteredWords);
       if ($scope.selected === 'All') {
-        console.log('i am here ohhh', $scope.selected);
+        $scope.books.forEach((file) => {
+          $scope.selected = file.name;
+          $scope.tabs4all.push($scope.createIndex());
+        });
       } else {
-        $scope.createIndex();
-        const filteredWords = filterContent($scope.searchWords);
-        const tokens = removeDuplicates(filteredWords);
-        $scope.search = invertedIndex.searchIndex(tokens, $scope.tabs);
-        $location.path('/searchIndex');
-      }
+          $scope.tabs4all.push($scope.createIndex());
+      };
+      $scope.searches = [];
+      $scope.tabs4all.forEach((tabs) => {
+      $scope.search = invertedIndex.searchIndex(tokens, tabs);
+      $scope.searches.push($scope.search);
+      });
+      console.log($scope.searches);
+      $location.path('/searchIndex');
     };
   }]);
 
@@ -81,7 +91,7 @@ myApp.directive('searchResult', () => ({
   templateUrl: 'templates/searchContent.html',
   replace: 'true',
   scope: {
-    searchObject: '='
+    searches: '='
   },
 }));
 
