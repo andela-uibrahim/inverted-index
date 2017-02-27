@@ -22,4 +22,4 @@ gulp.task('travis', ['build', 'testServerJs'], () => {
   process.exit(0);
 });
 
-gulp.task('default', ['watch', 'browser']);
+gulp.task('default', ['watch']);
