@@ -57,7 +57,12 @@ myApp.controller('homeController',
         console.log('invalid file content formart');
       }
     };
+
+    
+
+
     $scope.getSearchResults= () => {
+      
       $scope.tabs4all= [];
       const filteredWords = filterContent($scope.searchWords);
       const tokens = removeDuplicates(filteredWords);
@@ -74,7 +79,7 @@ myApp.controller('homeController',
       $scope.search = invertedIndex.searchIndex(tokens, tabs);
       $scope.searches.push($scope.search);
       });
-      console.log($scope.searches);
+      console.log($scope.books)
       $location.path('/searchIndex');
     };
   }]);
@@ -91,7 +96,8 @@ myApp.directive('searchResult', () => ({
   templateUrl: 'templates/searchContent.html',
   replace: 'true',
   scope: {
-    searches: '='
+    searches: '=',
+    books: '='
   },
 }));
 

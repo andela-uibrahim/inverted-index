@@ -91,7 +91,7 @@ const uploadFiles = ($scopeDotbooks, filesArray, contents) => {
         }
       }
     } else {
-      console.log('invalid file type');
+      alert('invalid file type '+ filesArray[i].name +' please upload a valid Json file');
     }
   }
 };

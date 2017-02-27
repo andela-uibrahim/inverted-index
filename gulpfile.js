@@ -11,12 +11,9 @@ gulp.task('browser', () => {
 
 gulp.task('watch', ['browser'], () => {
   gulp.watch('public/index.html', browserSync.reload);
-<<<<<<< HEAD
   gulp.watch('spec/specRunner.html', browserSync.reload);
   gulp.watch('spec/upload_spec.js', browserSync.reload);
-=======
   gulp.watch('public/templates/*.html', browserSync.reload);
->>>>>>> feature/1/setting-up-UI
   gulp.watch('public/css/*.css', browserSync.reload);
   gulp.watch('public/js/*.js', browserSync.reload);
 });
@@ -24,3 +21,5 @@ gulp.task('watch', ['browser'], () => {
 gulp.task('travis', ['build', 'testServerJs'], () => {
   process.exit(0);
 });
+
+gulp.task('default', ['watch', 'browser']);

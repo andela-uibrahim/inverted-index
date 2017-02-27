@@ -28,17 +28,43 @@ describe('Test the create index functionality',
      invertedIndex = new InvertedIndex();
      firstContent = ['hello', 'world'];
      secondContent = ['hello', 'bayo'];
-     filteredContents = [firstContent, firstContent, secondContent]
+     filteredContents = [firstContent, firstContent, secondContent];
    });
 
    it('should return "object" when its type is checked', () => {
-     expect(typeof (invertedIndex.createIndex(firstContent, 
+     expect(typeof (invertedIndex.createIndex(firstContent,
      filteredContents, invertedIndex.checkForIndex))).toBe('object');
    });
 
    it('should create an object once the class is declared', () => {
-     expect(invertedIndex.createIndex(firstContent, 
-     filteredContents, invertedIndex.checkForIndex)).toEqual({'hello': [true,true,true], 'world':[true,true,false]});
+     expect(invertedIndex.createIndex(firstContent,
+     filteredContents, invertedIndex.checkForIndex)).toEqual({
+       hello: [true, true, true],
+       world: [true, true, false] });
+   });
+ });
+
+describe('Test the search index functionality',
+ () => {
+   let tokens; let indexx;
+   let invertedIndex;
+   beforeEach(() => {
+     invertedIndex = new InvertedIndex();
+     tokens = ['hello', 'world', 'alice', 'man'];
+     indexx = { man: [true, false, false], hello:
+     [true, true, false], indian: [true, false, true] };
+   });
+
+   it('should return "object" when its type is checked', () => {
+     expect(typeof (invertedIndex.searchIndex(tokens, indexx))).toBe('object');
+   });
+
+   it('should return an array of objects with tokens and their indexs ', () => {
+     expect(invertedIndex.searchIndex(tokens, indexx)).toEqual({
+       "hello": [true, true, false],
+       "world": [false, false, false],
+       "alice": [false, false, false],
+       "man": [true, false, false]});
    });
  });
 
@@ -94,7 +120,7 @@ describe('comebineAndSortArray',
    let book1;
    beforeEach(() => {
      book1 = [['alice', 'enters'], ['fellowship', 'wizard'],
-     ['thee','usuals']];
+     ['thee', 'usuals']];
    });
 
    it('should return " array " for a valid json file input', () => {
@@ -102,7 +128,8 @@ describe('comebineAndSortArray',
    });
 
    it('should return "an array of comebined and sorted contents"', () => {
-     expect(comebineAndSortArrays(book1)).toEqual(['alice', 'enters', 'fellowship', 'thee', 'usuals', 'wizard']);
+     expect(comebineAndSortArrays(book1)).toEqual(['alice', 'enters',
+       'fellowship', 'thee', 'usuals', 'wizard']);
    });
  });
 describe('filterBookContents',

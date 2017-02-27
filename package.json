@@ -4,6 +4,7 @@
   "description": "An inverted index application",
   "main": "index.js",
   "scripts": {
+    "start": "node node_modules/gulp/bin/gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,6 +15,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/andela-uibrahim/inverted-index/issues"
+  },
+
+  "engines": {
+    "node": "6.9.5",
+    "npm": "3.10.10"
   },
   "homepage": "https://github.com/andela-uibrahim/inverted-index#readme",
   "devDependencies": {
@@ -32,9 +38,12 @@
     "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.0",
-    "karma-jasmine": "^1.1.0"
+    "karma-jasmine": "^1.1.0",
+    "karma-verbose-reporter": "0.0.5"
   },
   "dependencies": {
-    "express": "^4.14.1"
+    "express": "^4.14.1",
+    "gulp": "^3.9.1",
+    "browser-sync": "^2.18.7"
   }
 }

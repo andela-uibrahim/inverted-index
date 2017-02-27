@@ -33,7 +33,6 @@ class InvertedIndex {
       if (word in indexx) {
         searchMap[word] = indexx[word];
       } else {
-        const keey = Object.keys(indexx)[0];
         searchMap[word] = Array(3).fill(false);
       }
     });
