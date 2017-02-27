@@ -4,8 +4,10 @@ const browserSync = require('browser-sync');
 gulp.task('browser', () => {
   browserSync.init({
     server: {
-      baseDir: 'public',
+      baseDir: './public',
+      index: 'index.html'
     },
+    port: process.env.PORT || 9000,
   });
 });
 
