@@ -54,32 +54,33 @@ myApp.controller('homeController',
         $location.path('/showIndex');
         return $scope.tabs;
       } else {
-        console.log('invalid file content formart');
+        alert('invalid content formart please upload a valid Json file');
+        return null;
       }
     };
 
-    
 
-
-    $scope.getSearchResults= () => {
-      
+    $scope.getSearchResults= () => {     
       $scope.tabs4all= [];
       const filteredWords = filterContent($scope.searchWords);
       const tokens = removeDuplicates(filteredWords);
       if ($scope.selected === 'All') {
         $scope.books.forEach((file) => {
           $scope.selected = file.name;
-          $scope.tabs4all.push($scope.createIndex());
+          if ($scope.createIndex() === null) {
+            alert('invalid file content please upload a valid Json file');
+          } else {
+            $scope.tabs4all.push($scope.createIndex());
+          }
         });
       } else {
-          $scope.tabs4all.push($scope.createIndex());
-      };
+        $scope.tabs4all.push($scope.createIndex());
+      }
       $scope.searches = [];
       $scope.tabs4all.forEach((tabs) => {
-      $scope.search = invertedIndex.searchIndex(tokens, tabs);
-      $scope.searches.push($scope.search);
+        $scope.search = invertedIndex.searchIndex(tokens, tabs);
+        $scope.searches.push($scope.search);
       });
-      console.log($scope.books)
       $location.path('/searchIndex');
     };
   }]);
