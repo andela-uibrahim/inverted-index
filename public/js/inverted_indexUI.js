@@ -32,7 +32,13 @@ myApp.controller('homeController',
     $scope.fileNameChanged = (ele) => {
       $scope.$apply(() => {
         filesArray = ele.files;
-        uploadFiles($scope.books, filesArray, $scope.cont);
+        let validationResult = true;
+        validationResult = uploadFiles($scope.books,
+         filesArray, $scope.cont);
+        if (validationResult[0] === false) {
+          $scope.error = validationResult[1].name;
+          angular.element('#alert-button').trigger('click');
+        }
       });
     };
 

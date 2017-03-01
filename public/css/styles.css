@@ -97,3 +97,7 @@
 .select span{
 	color: #428bca;
 }
+
+.alertClass {
+	height: 200px; 
+};

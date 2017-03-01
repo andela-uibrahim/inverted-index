@@ -20,10 +20,10 @@
 	<div class="row">
 		<div class="col-md-2">
 			<br><br><br>
-			
 		</div>
-	
+
 		<div class="col-md-8" id="small" >
+
 			<button type="button" id="searchWords" ng-click ="getSearchResults()" class="btn btn-primary pull-right" data-dismiss="modal">Search</button>
 			<select class="pull-right select" id="searchSelect" ng-model="selected">
 				<option class="selFile" value ="All">All files</option>
@@ -33,12 +33,15 @@
 			<br><br>
 
 			<div class="white" ng-view>
-	
+				
 			</div>
 		</div>
 
 <!-- section to upload your files -->	
 	<div class="col-md-2" >
+		<div class="alert alert-danger" ng-show= "A == 1">
+  		<strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+		</div>
 		<span class="modal-x hidden" data-toggle="modal" data-target="#myModal"></span>
 
 		<button class="process" data-toggle="tooltip" data-placement="top" title="Select file">
@@ -53,7 +56,17 @@
 	</div>
 	
 	
-</div>	
+</div>
+
+
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content alertClass">
+				<p> {{error}} is not a valid json file</p>
+				<p> please upload a valid json file</p> 
+			</div>
+		</div>
+	</div>	
 
 <div class="modal fade" tabindex="-1" id="myModal" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -70,6 +83,8 @@
 					</select>
 					
 				</div>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm" style="display: none" id="alert-button">Small modal</button>
+
 				<div class="modal-footer" style= "margin-top: 100px; background-color: #428bca; height: 100px !important;">
 <!--			      			<form >-->
 						</br></br>
