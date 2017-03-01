@@ -4,8 +4,10 @@ const browserSync = require('browser-sync');
 gulp.task('browser', () => {
   browserSync.init({
     server: {
-      baseDir: 'public',
+      baseDir: './public',
+      index: 'index.html'
     },
+    port: process.env.PORT || 9000,
   });
 });
 
@@ -22,4 +24,4 @@ gulp.task('travis', ['build', 'testServerJs'], () => {
   process.exit(0);
 });
 
-gulp.task('default', ['watch', 'browser']);
+gulp.task('default', ['watch']);
