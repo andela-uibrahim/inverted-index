@@ -22,22 +22,35 @@ myApp.config(($routeProvider) => {
 });
 
 myApp.controller('homeController',
-  ['$scope', '$location', function ($scope, $location, $route) {
+  ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
     let selectedFile; let filesArray; const contents = [];
     $scope.books = [];
     $scope.cont = [];
     $scope.selected = 0;
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
-    $scope.fileNameChanged = (ele) => {
+
+    // alert message function
+    $scope.alerts = (show, message, type) => {
+      $scope.alert = {
+        message,
+        type,
+        show
+      };
+      $timeout(() => {
+        $scope.alert.show = false;
+      }, 4000);
+    };
+
+    $scope.fileNameChanged = (element) => {
       $scope.$apply(() => {
-        filesArray = ele.files;
+        filesArray = element.files;
         let validationResult = true;
         validationResult = uploadFiles($scope.books,
          filesArray, $scope.cont);
         if (validationResult[0] === false) {
-          $scope.error = validationResult[1].name;
-          angular.element('#alert-button').trigger('click');
+          validationResult[1].name;
+          $scope.alerts(true, 'unable to upload '+validationResult[1].name+' is not a valid json file');
         }
       });
     };
@@ -59,29 +72,37 @@ myApp.controller('homeController',
         filteredContents, invertedIndex.checkForIndex);
         $location.path('/showIndex');
         return $scope.tabs;
-      } else {
-        alert('invalid content formart please upload a valid Json file');
-        return null;
       }
+      $scope.alerts(true, 'invalid file content format. please upload a valid file');
+      return null;
     };
 
 
-    $scope.getSearchResults= () => {     
+    $scope.getSearchResults= () => {
       $scope.tabs4all= [];
+      let status;
       const filteredWords = filterContent($scope.searchWords);
       const tokens = removeDuplicates(filteredWords);
       if ($scope.selected === 'All') {
-        $scope.books.forEach((file) => {
+          status = $scope.books.forEach((file) => {
           $scope.selected = file.name;
           if ($scope.createIndex() === null) {
-            alert('invalid file content please upload a valid Json file');
+            return false;
           } else {
             $scope.tabs4all.push($scope.createIndex());
           }
-        });
+         });
+         if (status !== undefined){
+            return false
+         };
       } else {
-        $scope.tabs4all.push($scope.createIndex());
+        const ind = $scope.createIndex();
+        if (ind === null){
+          return false;
+        };
+        $scope.tabs4all.push(ind);
       }
+
       $scope.searches = [];
       $scope.tabs4all.forEach((tabs) => {
         $scope.search = invertedIndex.searchIndex(tokens, tabs);

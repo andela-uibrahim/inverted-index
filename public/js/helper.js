@@ -96,3 +96,4 @@ const uploadFiles = ($scopeDotbooks, filesArray, contents) => {
   }
   return [true];
 };
+
