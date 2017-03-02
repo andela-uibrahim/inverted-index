@@ -23,92 +23,117 @@ myApp.config(($routeProvider) => {
 
 myApp.controller('homeController',
   ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
-    let selectedFile; let filesArray; const contents = [];
-    $scope.books = [];
-    $scope.cont = [];
-    $scope.selected = 0;
+    let filesArray; const contents = [];
+    $scope.books = {};
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
 
-    // alert message function
-    $scope.alerts = (show, message, type) => {
-      $scope.alert = {
-        message,
-        type,
-        show
-      };
-      $timeout(() => {
-        $scope.alert.show = false;
-      }, 4000);
-    };
-
+/** validates file type and handles the file uploads on user request
+ *
+ * @param  {element} element  - uploaded files
+ * @return {crap} - None
+ */
     $scope.fileNameChanged = (element) => {
       $scope.$apply(() => {
         filesArray = element.files;
         let validationResult = true;
         validationResult = uploadFiles($scope.books,
-         filesArray, $scope.cont);
+         filesArray, contents);
         if (validationResult[0] === false) {
-          validationResult[1].name;
-          $scope.alerts(true, 'unable to upload '+validationResult[1].name+' is not a valid json file');
+          $scope.alerts(true, `unable to upload. ${validationResult[1].name}
+           is not a valid json file`);
         }
       });
     };
 
-    $scope.createIndex = () => {
-      $scope.tabs = [];
-      $scope.books.map((book, index) => {
-        book.content = $scope.cont[index];
-        if (book.name === $scope.selected) {
-          selectedFile = book;
-        }
-      });
-      const selectedBook = selectedFile.content;
+    $scope.createFileIndex = (books, file) => {
+      const selectedBook = books[file].content;
       const validateContent = validFileContent(selectedBook);
       if (validateContent) {
         const filteredContents = filterBookContents(selectedBook);
         const tokens = getToken(filteredContents);
-        $scope.tabs = invertedIndex.createIndex(tokens,
+        if (!($scope.indexedFiles.hasOwnProperty(file))) {
+          $scope.indexedFiles[file] = invertedIndex.createIndex(tokens,
         filteredContents, invertedIndex.checkForIndex);
-        $location.path('/showIndex');
-        return $scope.tabs;
+        }
+        return null;
       }
-      $scope.alerts(true, 'invalid file content format. please upload a valid file');
+      $scope.alerts(true, `invalid file content format.
+      ${books[file].name} please upload a valid file`);
       return null;
     };
 
+/** create an inverted index for uploaded json file
+ *
+ * @return  {boolean}  - true or false
+ */
+    $scope.createIndex = () => {
+      $scope.indexedFiles = {};
+      if ($scope.selected === 'All') {
+        for (const file in $scope.books) {
+          $scope.createFileIndex($scope.books, file);
+        }
+      } else {
+        $scope.createFileIndex($scope.books,
+        $scope.selected);
+      }
+      $location.path('/showIndex');
+    };
 
-    $scope.getSearchResults= () => {
-      $scope.tabs4all= [];
-      let status;
+
+/** get search results for search words
+ *
+ * @return  {boolean}  - true or false
+ */
+    $scope.getSearchResults = () => {
+      if (!$scope.searchWords) {
+        $scope.alerts(true, 'no search word entered');
+        return null;
+      } else if (!$scope.selected) {
+        $scope.alerts(true, 'select file to search words from');
+        return null;
+      }
       const filteredWords = filterContent($scope.searchWords);
       const tokens = removeDuplicates(filteredWords);
+      $scope.searches = {};
       if ($scope.selected === 'All') {
-          status = $scope.books.forEach((file) => {
-          $scope.selected = file.name;
-          if ($scope.createIndex() === null) {
-            return false;
-          } else {
-            $scope.tabs4all.push($scope.createIndex());
-          }
-         });
-         if (status !== undefined){
-            return false
-         };
+        for (const file in $scope.indexedFiles) {
+          const search = invertedIndex.searchIndex(tokens,
+           $scope.indexedFiles[file]);
+          $scope.searches[file] = search;
+        }
+      } else if (!($scope.selected in $scope.indexedFiles)) {
+        $scope.alerts(true, `no index record found for ${$scope.selected}`);
+        return null;
       } else {
-        const ind = $scope.createIndex();
-        if (ind === null){
-          return false;
-        };
-        $scope.tabs4all.push(ind);
+        const file = $scope.selected;
+        const search = invertedIndex.searchIndex(tokens,
+         $scope.indexedFiles[file]);
+        $scope.searches[file] = search;
       }
-
-      $scope.searches = [];
-      $scope.tabs4all.forEach((tabs) => {
-        $scope.search = invertedIndex.searchIndex(tokens, tabs);
-        $scope.searches.push($scope.search);
-      });
       $location.path('/searchIndex');
+    };
+
+    $scope.homePage = () => {
+      $location.path('/');
+    };
+
+/** handles the file uploads on user request
+ *
+ * @param  {boolean} show - true or false decides
+ * the status of the arert display
+ * @param  {String} message - message string to display
+ * @param  {String} type - the boostrap alert class type to display
+ * @return {crap} - nothing
+ */
+    $scope.alerts = (show, message) => {
+      $scope.alert = {
+        message,
+        show
+      };
+      $timeout(() => {
+        $scope.alert.show = false;
+      }, 4000);
     };
   }]);
 
@@ -116,7 +141,7 @@ myApp.directive('indexTab', () => ({
   templateUrl: 'templates/tabContent.html',
   replace: 'true',
   scope: {
-    tabObject: '='
+    indexedFiles: '='
   },
 }));
 
@@ -124,8 +149,7 @@ myApp.directive('searchResult', () => ({
   templateUrl: 'templates/searchContent.html',
   replace: 'true',
   scope: {
-    searches: '=',
-    books: '='
+    searches: '='
   },
 }));
 
