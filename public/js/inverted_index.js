@@ -1,7 +1,11 @@
 class InvertedIndex {
-  constructor() {
-  }
 
+  /** creates index and update the indexed files
+   * @param {Array} word - object to br returned
+   * @param {Array} filteredContents - an array of all contents in file
+   * @param {object} wordMap - an array of all contents in file
+   * @return  {null}  - null
+   */
   checkForIndex(word, filteredContents, wordMap) {
     filteredContents.forEach((book) => {
       if (book.includes(word)) {
@@ -18,6 +22,12 @@ class InvertedIndex {
     });
   }
 
+/** creates index and update the indexed files
+  * @param {Array} tokens - object to br returned
+  * @param {Array} filteredContents - an array of all contents in file
+  * @param {function} checkForIndex - an array of all contents in file
+  * @return  {object}  - this.wordMap;
+  */
   createIndex(tokens, filteredContents, checkForIndex) {
     this.wordMap = {};
     tokens.forEach((word) => {
@@ -27,6 +37,12 @@ class InvertedIndex {
   }
 
 
+/** creates index and update the indexed files
+  * @param {Array} tokens - object to br returned
+  * @param {object} indexx - a collection of indexed files
+  * @param {function} checkForIndex - an array of all contents in file
+  * @return  {object}  - this.wordMap;
+  */
   searchIndex(tokens, indexx) {
     const searchMap = {};
     tokens.forEach((word) => {

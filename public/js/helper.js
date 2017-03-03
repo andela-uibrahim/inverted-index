@@ -115,17 +115,15 @@ const getToken = (filteredContents) => {
  * @param  {Array} contents - an array that stores the contents
  * that has been read
  */
-const updateFiles = (currentFile) => {
-  return new Promise(resolve => {
+const updateFiles = currentFile => new Promise((resolve) => {
     // let content;
-    const reader = new FileReader();
-    reader.readAsText(currentFile);
-    reader.onload = (e) => {
-      resolve(JSON.parse(e.target.result));
-      // contents.push(content);
-    };
-  });
-};
+  const reader = new FileReader();
+  reader.readAsText(currentFile);
+  reader.onload = (e) => {
+    resolve(JSON.parse(e.target.result));
+    // contents.push(content);
+  };
+});
 
 
 /** handles the file uploads on user request
@@ -135,12 +133,12 @@ const updateFiles = (currentFile) => {
  * @param  {Array} contents - an array of uploaded books contents.
  * @return {Array} array of boolean to signify uploads success of failure.
  */
-const uploadFiles = (books, filesArray, contents) => {
+const uploadFiles = (books, filesArray) => {
   for (const file of filesArray) {
     if (fileIsValid(file)) {
       const fileNames = Object.keys(books).map(book => books[book].name);
       if (!(fileNames.includes(file.name))) {
-        updateFiles(file).then(content => {
+        updateFiles(file).then((content) => {
           file.content = content;
         });
         books[file.name] = file;

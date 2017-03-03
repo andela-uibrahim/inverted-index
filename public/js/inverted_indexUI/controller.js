@@ -1,29 +1,6 @@
-const myApp = angular.module('myApp', ['ngRoute']);
-
-myApp.config(($routeProvider) => {
-  $routeProvider
-   // home pages
-  .when('/', {
-    templateUrl: 'templates/home.html',
-    controller: 'homeController'
-  })
-
-   // index pages
-  .when('/showIndex', {
-    templateUrl: 'templates/table.html',
-    controller: 'homeController'
-  })
-
-// // search pages
-  .when('/searchIndex', {
-    templateUrl: 'templates/search.html',
-    controller: 'homeController'
-  });
-});
-
 myApp.controller('homeController',
   ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
-    let filesArray; const contents = [];
+    let filesArray;
     $scope.books = {};
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
@@ -38,7 +15,7 @@ myApp.controller('homeController',
         filesArray = element.files;
         let validationResult = true;
         validationResult = uploadFiles($scope.books,
-         filesArray, contents);
+         filesArray);
         if (validationResult[0] === false) {
           $scope.alerts(true, `unable to upload. ${validationResult[1].name}
            is not a valid json file`);
@@ -46,6 +23,11 @@ myApp.controller('homeController',
       });
     };
 
+  /** creates index and update the indexed files
+   * @param {object} books - object containing books
+   * @param {Sting} file - file name
+   * @return  {null}  - null
+   */
     $scope.createFileIndex = (books, file) => {
       const selectedBook = books[file].content;
       const validateContent = validFileContent(selectedBook);
@@ -80,6 +62,11 @@ myApp.controller('homeController',
       $location.path('/showIndex');
     };
 
+    const updateSearchResult = (file, tokens) => {
+      const search = invertedIndex.searchIndex(tokens,
+         $scope.indexedFiles[file]);
+      $scope.searches[file] = search;
+    };
 
 /** get search results for search words
  *
@@ -98,25 +85,22 @@ myApp.controller('homeController',
       $scope.searches = {};
       if ($scope.selected === 'All') {
         for (const file in $scope.indexedFiles) {
-          const search = invertedIndex.searchIndex(tokens,
-           $scope.indexedFiles[file]);
-          $scope.searches[file] = search;
+          updateSearchResult(file, tokens);
         }
       } else if (!($scope.selected in $scope.indexedFiles)) {
         $scope.alerts(true, `no index record found for ${$scope.selected}`);
         return null;
       } else {
         const file = $scope.selected;
-        const search = invertedIndex.searchIndex(tokens,
-         $scope.indexedFiles[file]);
-        $scope.searches[file] = search;
+        updateSearchResult(file, tokens);
       }
       $location.path('/searchIndex');
     };
 
-    $scope.homePage = () => {
-      $location.path('/');
-    };
+  // redirect to homepage on click of home button
+  $scope.homePage = () => {
+    $location.path('/');
+  };
 
 /** handles the file uploads on user request
  *
@@ -136,20 +120,3 @@ myApp.controller('homeController',
       }, 4000);
     };
   }]);
-
-myApp.directive('indexTab', () => ({
-  templateUrl: 'templates/tabContent.html',
-  replace: 'true',
-  scope: {
-    indexedFiles: '='
-  },
-}));
-
-myApp.directive('searchResult', () => ({
-  templateUrl: 'templates/searchContent.html',
-  replace: 'true',
-  scope: {
-    searches: '='
-  },
-}));
-

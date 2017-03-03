@@ -61,10 +61,10 @@ describe('Test the search index functionality',
 
    it('should return an array of objects with tokens and their indexs ', () => {
      expect(invertedIndex.searchIndex(tokens, indexx)).toEqual({
-       "hello": [true, true, false],
-       "world": [false, false, false],
-       "alice": [false, false, false],
-       "man": [true, false, false]});
+       hello: [true, true, false],
+       world: [false, false, false],
+       alice: [false, false, false],
+       man: [true, false, false] });
    });
  });
 
