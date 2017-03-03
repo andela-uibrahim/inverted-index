@@ -61,8 +61,7 @@ myApp.controller('homeController',
         $scope.createFileIndex($scope.books,
         $scope.selected);
       }
-      const redirect = `${$location.absUrl()}showIndex`;
-      console.log(redirect)
+      $location.path('/showIndex');
       return true;
     };
 
