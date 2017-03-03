@@ -1,5 +1,5 @@
 myApp.directive('indexTab', () => ({
-  templateUrl: 'templates/tabContent.html',
+  templateUrl: '/templates/tabContent.html',
   replace: 'true',
   scope: {
     indexedFiles: '='
