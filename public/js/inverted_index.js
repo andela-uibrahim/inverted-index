@@ -1,3 +1,8 @@
+
+/**
+ * InvertedIndex class with constructor
+ * @class
+ */
 class InvertedIndex {
 
   /** creates index and update the indexed files
@@ -28,10 +33,10 @@ class InvertedIndex {
   * @param {function} checkForIndex - an array of all contents in file
   * @return  {object}  - this.wordMap;
   */
-  createIndex(tokens, filteredContents, checkForIndex) {
+  createIndex(tokens, filteredContents) {
     this.wordMap = {};
     tokens.forEach((word) => {
-      checkForIndex(word, filteredContents, this.wordMap);
+      this.checkForIndex(word, filteredContents, this.wordMap);
     });
     return this.wordMap;
   }
@@ -44,14 +49,14 @@ class InvertedIndex {
   * @return  {object}  - this.wordMap;
   */
   searchIndex(tokens, indexx) {
-    const searchMap = {};
+    this.searchMap = {};
     tokens.forEach((word) => {
       if (word in indexx) {
-        searchMap[word] = indexx[word];
+        this.searchMap[word] = indexx[word];
       } else {
-        searchMap[word] = Array(3).fill(false);
+        this.searchMap[word] = Array(3).fill(false);
       }
     });
-    return searchMap;
+    return this.searchMap;
   }
 }

@@ -51,8 +51,9 @@ describe('Test the search index functionality',
    beforeEach(() => {
      invertedIndex = new InvertedIndex();
      tokens = ['hello', 'world', 'alice', 'man'];
-     indexx = { man: [true, false, false], hello:
-     [true, true, false], indian: [true, false, true] };
+     indexx = { man: [true, false, false],
+       hello: [true, true, false],
+       indian: [true, false, true] };
    });
 
    it('should return "object" when its type is checked', () => {
@@ -69,29 +70,31 @@ describe('Test the search index functionality',
  });
 
 
-describe('fileIsValid',
+describe('utility.fileIsValid',
  () => {
-   let file1; let file2; let file3; let file4;
+   let file1; let file2; let file3; let file4; let utility;
    beforeEach(() => {
+     utility = new Helpers();
      file1 = { name: 'book.json' }; file2 = { name: 'book.css' };
      file3 = { name: 'book' }; file4 = { name: 'book.JSON' };
    });
 
    it('should return "true" for a valid json file', () => {
-     expect(fileIsValid(file1)).toBe(true);
-     expect(fileIsValid(file4)).toBe(true);
+     expect(utility.fileIsValid(file1)).toBe(true);
+     expect(utility.fileIsValid(file4)).toBe(true);
    });
 
    it('should return "false" for an invalid file', () => {
-     expect(fileIsValid(file2)).toBe(false);
-     expect(fileIsValid(file3)).toBe(false);
+     expect(utility.fileIsValid(file2)).toBe(false);
+     expect(utility.fileIsValid(file3)).toBe(false);
    });
  });
 
 describe('validateFileContents',
  () => {
-   let book1, book2, book3, book4;
+   let book1, book2, book3, book4; let utility;
    beforeEach(() => {
+     utility = new Helpers();
      book1 = [{ title: 'Alice , / ?', text: 'enters a a.' },
      { title: 'Fellowship )&* ...', text: 'wizard on on' },
      { title: 'Thee + = - ee', text: 'un un usuals' }];
@@ -101,67 +104,74 @@ describe('validateFileContents',
    });
 
    it('should return boolean for a valid json file input', () => {
-     expect(typeof (validFileContent(book1))).toBe('boolean');
+     expect(typeof (utility.validFileContent(book1))).toBe('boolean');
    });
 
    it('should return true for valid file contents', () => {
-     expect(validFileContent(book1)).toBe(true);
+     expect(utility.validFileContent(book1)).toBe(true);
    });
 
    it('should return false for an invalid data format', () => {
-     expect(validFileContent(book2)).toBe(false);
-     expect(validFileContent(book3)).toBe(false);
-     expect(validFileContent(book4)).toBe(false);
+     expect(utility.validFileContent(book2)).toBe(false);
+     expect(utility.validFileContent(book3)).toBe(false);
+     expect(utility.validFileContent(book4)).toBe(false);
    });
  });
 
 describe('comebineAndSortArray',
  () => {
-   let book1;
+   let book1; let utility;
    beforeEach(() => {
+     utility = new Helpers();
      book1 = [['alice', 'enters'], ['fellowship', 'wizard'],
      ['thee', 'usuals']];
    });
 
    it('should return " array " for a valid json file input', () => {
-     expect(typeof (comebineAndSortArrays(book1))).toBe(typeof ([]));
+     expect(typeof (utility.comebineAndSortArrays(book1))).toBe(typeof ([]));
    });
 
    it('should return "an array of comebined and sorted contents"', () => {
-     expect(comebineAndSortArrays(book1)).toEqual(['alice', 'enters',
+     expect(utility.comebineAndSortArrays(book1)).toEqual(['alice', 'enters',
        'fellowship', 'thee', 'usuals', 'wizard']);
    });
  });
 describe('filterBookContents',
  () => {
-   let book1;
+   let book1; let utility;
    beforeEach(() => {
+     utility = new Helpers();
      book1 = [{ title: 'Alice , / ?', text: 'enters a a.' },
      { title: 'Fellowship )&* ...', text: 'wizard on on' },
      { title: 'Thee + = - ee', text: 'un un usuals' }];
    });
 
    it('should return " array " for a valid json file input', () => {
-     expect(typeof (filterBookContents(book1))).toBe(typeof ([]));
+     expect(typeof (utility.filterBookContents(book1))).toBe(typeof ([]));
    });
 
    it('should return "an array of books with filtered contents"', () => {
-     expect(filterBookContents(book1)).toEqual([['alice', 'enters', 'a'],
-      ['fellowship', 'wizard', 'on'], ['thee', 'ee', 'un', 'usuals']]);
+     expect(utility.filterBookContents(book1)).toEqual(
+       [['alice', 'enters', 'a'], ['fellowship', 'wizard', 'on'],
+       ['thee', 'ee', 'un', 'usuals']]);
    });
  });
 
 describe('getTokens',
  () => {
+   let utility;
+   beforeEach(() => {
+     utility = new Helpers();
+   });
    it('should return " array " sorted non-repeated/unique tokens present' +
      'in the filterBookContents', () => {
-     expect(typeof (getToken([['alice', 'hello', 'world'],
+     expect(typeof (utility.getToken([['alice', 'hello', 'world'],
        ['alice', 'hello', 'world'], ['alice',
          'hello', 'world']]))).toBe(typeof ([]));
    });
 
    it('should return "an array of books with filtered contents"', () => {
-     expect(getToken([['guy', 'alice', 'hello', 'world'], ['alice',
+     expect(utility.getToken([['guy', 'alice', 'hello', 'world'], ['alice',
        'hello', 'man', 'man', 'world'], ['alice', 'hello',
          'world']])).toEqual(['alice', 'guy', 'hello', 'man', 'world']);
    });
@@ -169,15 +179,19 @@ describe('getTokens',
 
 describe('removeDuplicatesInArray',
  () => {
+   let utility;
+   beforeEach(() => {
+     utility = new Helpers();
+   });
    it('should return " array " sorted non-repeated/unique tokens present' +
      'in the filterBookContents', () => {
-     expect(typeof (removeDuplicatesInArray([['alice', 'alice', 'world'],
-       ['hello', 'hello', 'world'], ['alice',
+     expect(typeof (utility.removeDuplicatesInArray([['alice', 
+       'alice', 'world'], ['hello', 'hello', 'world'], ['alice',
          'world', 'world']]))).toBe(typeof ([]));
    });
 
    it('should return "an array of books with filtered contents"', () => {
-     expect(removeDuplicatesInArray([['alice', 'alice', 'world'],
+     expect(utility.removeDuplicatesInArray([['alice', 'alice', 'world'],
        ['hello', 'hello', 'world'], ['alice', 'world',
          'world']])).toEqual([['alice', 'world'], ['hello', 'world'],
           ['alice', 'world']]);
@@ -186,14 +200,18 @@ describe('removeDuplicatesInArray',
 
 describe('removeDuplicatesInArray',
  () => {
+   let utility;
+   beforeEach(() => {
+     utility = new Helpers();
+   });
    it('should return " array " sorted non-repeated/unique tokens present' +
      'in the filterBookContents', () => {
-     expect(typeof (removeDuplicates(['alice', 'alice',
+     expect(typeof (utility.removeDuplicates(['alice', 'alice',
        'world']))).toBe(typeof ([]));
    });
 
    it('should return "an array of books with filtered contents"', () => {
-     expect(removeDuplicates(['alice', 'alice',
+     expect(utility.removeDuplicates(['alice', 'alice',
        'world'])).toEqual(['alice', 'world']);
    });
  });

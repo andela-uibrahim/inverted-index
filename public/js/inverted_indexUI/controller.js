@@ -4,6 +4,7 @@ myApp.controller('homeController',
     $scope.books = {};
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
+    const utility = new Helpers();
 
 /** validates file type and handles the file uploads on user request
  *
@@ -14,7 +15,7 @@ myApp.controller('homeController',
       $scope.$apply(() => {
         filesArray = element.files;
         let validationResult = true;
-        validationResult = uploadFiles($scope.books,
+        validationResult = utility.uploadFiles($scope.books,
          filesArray);
         if (validationResult[0] === false) {
           $scope.alerts(true, `unable to upload. ${validationResult[1].name}
@@ -30,10 +31,10 @@ myApp.controller('homeController',
    */
     $scope.createFileIndex = (books, file) => {
       const selectedBook = books[file].content;
-      const validateContent = validFileContent(selectedBook);
+      const validateContent = utility.validFileContent(selectedBook);
       if (validateContent) {
-        const filteredContents = filterBookContents(selectedBook);
-        const tokens = getToken(filteredContents);
+        const filteredContents = utility.filterBookContents(selectedBook);
+        const tokens = utility.getToken(filteredContents);
         if (!($scope.indexedFiles.hasOwnProperty(file))) {
           $scope.indexedFiles[file] = invertedIndex.createIndex(tokens,
         filteredContents, invertedIndex.checkForIndex);
@@ -60,12 +61,19 @@ myApp.controller('homeController',
         $scope.selected);
       }
       $location.path('/showIndex');
+      return true;
     };
 
+/** updates searches object with search results
+ * @param {String} file - name of file to search from
+ * @param {Array} tokens - Array of words to search
+ * @return  {boolean}  - true or false
+ */
     const updateSearchResult = (file, tokens) => {
       const search = invertedIndex.searchIndex(tokens,
          $scope.indexedFiles[file]);
       $scope.searches[file] = search;
+      return true;
     };
 
 /** get search results for search words
@@ -80,8 +88,8 @@ myApp.controller('homeController',
         $scope.alerts(true, 'select file to search words from');
         return null;
       }
-      const filteredWords = filterContent($scope.searchWords);
-      const tokens = removeDuplicates(filteredWords);
+      const filteredWords = utility.filterContent($scope.searchWords);
+      const tokens = utility.removeDuplicates(filteredWords);
       $scope.searches = {};
       if ($scope.selected === 'All') {
         for (const file in $scope.indexedFiles) {
@@ -97,10 +105,11 @@ myApp.controller('homeController',
       $location.path('/searchIndex');
     };
 
-  // redirect to homepage on click of home button
-  $scope.homePage = () => {
-    $location.path('/');
-  };
+// redirect to homepage on click of home button
+    $scope.homePage = () => {
+      $location.path('/');
+      return true;
+    };
 
 /** handles the file uploads on user request
  *
@@ -108,7 +117,7 @@ myApp.controller('homeController',
  * the status of the arert display
  * @param  {String} message - message string to display
  * @param  {String} type - the boostrap alert class type to display
- * @return {crap} - nothing
+ * @return {nothing} - nothing
  */
     $scope.alerts = (show, message) => {
       $scope.alert = {
