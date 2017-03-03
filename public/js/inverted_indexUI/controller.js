@@ -62,7 +62,7 @@ myApp.controller('homeController',
         $scope.selected);
       }
       const redirect = `${$location.absUrl()}showIndex`;
-      window.location = redirect;
+      console.log(redirect)
       return true;
     };
 
