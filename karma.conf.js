@@ -19,7 +19,7 @@ module.exports = (config) => {
       'https://code.angularjs.org/1.6.1/angular-route.min.js',
       'public/js/helper.js',
       'public/js/inverted_index.js',
-      'public/js/inverted_indexUI.js',
+      'public/js/inverted_indexUI/*.js',
       'spec/*.js'
     ],
 
