@@ -20,6 +20,32 @@ describe('Test if the object exist and new instances can be created from it',
   });
  });
 
+describe('Test the check for index functionality',
+ () => {
+   let firstContent; let secondContent; let filteredContents;
+   let invertedIndex; let wordMap; let word;
+   beforeEach(() => {
+     wordMap = {};
+     word = 'hello';
+     invertedIndex = new InvertedIndex();
+     firstContent = ['hello', 'world'];
+     secondContent = ['hello', 'bayo'];
+     filteredContents = [firstContent, firstContent, secondContent];
+   });
+
+   it('should return "object" when its type is checked', () => {
+     expect(typeof (invertedIndex.checkForIndex(word,
+     filteredContents, wordMap))).toBe('object');
+   });
+
+   it('should create an object once the class is declared', () => {
+     expect(invertedIndex.checkForIndex(word,
+     filteredContents, wordMap)).toEqual({
+       hello: [true, true, true]
+     });
+   });
+ });
+
 describe('Test the create index functionality',
  () => {
    let firstContent; let secondContent; let filteredContents;
@@ -185,7 +211,7 @@ describe('removeDuplicatesInArray',
    });
    it('should return " array " sorted non-repeated/unique tokens present' +
      'in the filterBookContents', () => {
-     expect(typeof (utility.removeDuplicatesInArray([['alice', 
+     expect(typeof (utility.removeDuplicatesInArray([['alice',
        'alice', 'world'], ['hello', 'hello', 'world'], ['alice',
          'world', 'world']]))).toBe(typeof ([]));
    });

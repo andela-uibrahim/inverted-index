@@ -25,6 +25,7 @@ class InvertedIndex {
         wordMap[word].push(false);
       }
     });
+    return wordMap;
   }
 
 /** creates index and update the indexed files
