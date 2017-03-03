@@ -61,7 +61,7 @@ myApp.controller('homeController',
         $scope.createFileIndex($scope.books,
         $scope.selected);
       }
-      $location.path('/showIndex');
+      $location.path('showIndex');
       return true;
     };
 
