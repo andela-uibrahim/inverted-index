@@ -23,10 +23,12 @@ describe('Test if the object exist and new instances can be created from it',
 describe('Test the check for index functionality',
  () => {
    let firstContent; let secondContent; let filteredContents;
-   let invertedIndex; let wordMap; let word;
+   let invertedIndex; let wordMap; let word, word2, word3;
    beforeEach(() => {
      wordMap = {};
      word = 'hello';
+     word2 = 'usman';
+     word3 = 'world';
      invertedIndex = new InvertedIndex();
      firstContent = ['hello', 'world'];
      secondContent = ['hello', 'bayo'];
@@ -38,11 +40,24 @@ describe('Test the check for index functionality',
      filteredContents, wordMap))).toBe('object');
    });
 
-   it('should create an object once the class is declared', () => {
+   it('should return an object with search word matched with' +
+    'an array of true if the word is found in all documents', () => {
      expect(invertedIndex.checkForIndex(word,
      filteredContents, wordMap)).toEqual({
-       hello: [true, true, true]
-     });
+       hello: [true, true, true] });
+   });
+   it('should return an object with search word matched with' + 
+    'an array of "false" if the word is not found in all documents', () => {
+     expect(invertedIndex.checkForIndex(word2,
+     filteredContents, wordMap)).toEqual({
+       usman: [false, false, false] });
+   });
+   it('should return an object with search word matched with' + 
+   'an array of boolean with false if present in a document'+ 
+   'and true if otherwise', () => {
+     expect(invertedIndex.checkForIndex(word3,
+     filteredContents, wordMap)).toEqual({
+       world: [true, true, false] });
    });
  });
 
@@ -142,6 +157,9 @@ describe('validateFileContents',
      expect(utility.validFileContent(book3)).toBe(false);
      expect(utility.validFileContent(book4)).toBe(false);
    });
+   it('should return false for an empty book', () => {
+     expect(utility.validFileContent([{}])).toBe(false);
+   });
  });
 
 describe('comebineAndSortArray',
@@ -164,9 +182,12 @@ describe('comebineAndSortArray',
  });
 describe('filterBookContents',
  () => {
-   let book1; let utility;
+   let book1; let utility; let book2;
    beforeEach(() => {
      utility = new Helpers();
+     book2 = [{ title: 'Alice , / ?' },
+     { title: 'Fellowship )&* ...' },
+     { title: 'Thee + = - ee' }];
      book1 = [{ title: 'Alice , / ?', text: 'enters a a.' },
      { title: 'Fellowship )&* ...', text: 'wizard on on' },
      { title: 'Thee + = - ee', text: 'un un usuals' }];
@@ -180,6 +201,13 @@ describe('filterBookContents',
      expect(utility.filterBookContents(book1)).toEqual(
        [['alice', 'enters', 'a'], ['fellowship', 'wizard', 'on'],
        ['thee', 'ee', 'un', 'usuals']]);
+   });
+
+   it('should return "an array of books with filtered contents"' +
+    'for books with only title and no text', () => {
+     expect(utility.filterBookContents(book2)).toEqual(
+       [['alice'], ['fellowship'],
+       ['thee', 'ee']]);
    });
  });
 
