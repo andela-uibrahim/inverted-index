@@ -9,7 +9,7 @@ myApp.controller('homeController',
 /** validates file type and handles the file uploads on user request
  *
  * @param  {element} element  - uploaded files
- * @return {crap} - None
+ * @return {boolean} - true or false
  */
     $scope.fileNameChanged = (element) => {
       $scope.$apply(() => {
@@ -20,6 +20,7 @@ myApp.controller('homeController',
         if (validationResult[0] === false) {
           $scope.alerts(true, `unable to upload. ${validationResult[1].name}
            is not a valid json file`);
+          return false;
         }
       });
     };
