@@ -9,7 +9,8 @@ class InvertedIndex {
    * @param {Array} word - object to br returned
    * @param {Array} filteredContents - an array of all contents in file
    * @param {object} wordMap - an array of all contents in file
-   * @return  {null}  - null
+   * @return  {object}  wordMap - a map of each token to
+   *  there respective indexes
    */
   checkForIndex(word, filteredContents, wordMap) {
     filteredContents.forEach((book) => {
@@ -43,11 +44,10 @@ class InvertedIndex {
   }
 
 
-/** creates index and update the indexed files
+/** search for words in indexFiles and return the result
   * @param {Array} tokens - object to br returned
   * @param {object} indexx - a collection of indexed files
-  * @param {function} checkForIndex - an array of all contents in file
-  * @return  {object}  - this.wordMap;
+  * @return  {object}  - this.searchMap;
   */
   searchIndex(tokens, indexx) {
     this.searchMap = {};
