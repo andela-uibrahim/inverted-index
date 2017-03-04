@@ -54,6 +54,10 @@ myApp.controller('homeController',
     $scope.createIndex = () => {
       $scope.indexedFiles = {};
       if ($scope.selected === 'All') {
+        if (Object.keys($scope.books).length === 0) {
+          $scope.alerts(true, 'No uploaded file record found');
+          return null;
+        }
         for (const file in $scope.books) {
           $scope.createFileIndex($scope.books, file);
         }
@@ -93,6 +97,10 @@ myApp.controller('homeController',
       const tokens = utility.removeDuplicates(filteredWords);
       $scope.searches = {};
       if ($scope.selected === 'All') {
+        if ($scope.indexedFiles === undefined) {
+          $scope.alerts(true, 'there are no index file recorded');
+          return null;
+        }
         for (const file in $scope.indexedFiles) {
           updateSearchResult(file, tokens);
         }

@@ -16,7 +16,6 @@
   "bugs": {
     "url": "https://github.com/andela-uibrahim/inverted-index/issues"
   },
-
   "engines": {
     "node": "6.9.5",
     "npm": "3.10.10"
