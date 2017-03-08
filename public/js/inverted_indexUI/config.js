@@ -18,5 +18,6 @@ myApp.config(($routeProvider) => {
   .when('/searchIndex', {
     templateUrl: 'templates/search.html',
     controller: 'homeController'
-  });
+  })
+  .otherwise('/');
 });

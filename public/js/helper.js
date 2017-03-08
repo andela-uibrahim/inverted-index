@@ -67,7 +67,7 @@ class Helpers {
   filterContent(title, text) {
     text = text || '';
     let words = (`${title} ${text}`)
-      .replace(/[.,/#!+$%^&@*?;:'{}=\-_`~()]/g, '').toLowerCase().split(' ');
+      .replace(/[^a-zA-Z ]/g, '').toLowerCase().split(' ');
     words = words.filter(str => /\S/.test(str));
     return words;
   }

@@ -93,14 +93,14 @@ myApp.controller('homeController',
         $scope.alerts(true, 'select file to search words from');
         return null;
       }
+      if ($scope.indexedFiles === undefined) {
+        $scope.alerts(true, 'there are no index file recorded');
+        return null;
+      }
       const filteredWords = utility.filterContent($scope.searchWords);
       const tokens = utility.removeDuplicates(filteredWords);
       $scope.searches = {};
       if ($scope.selected === 'All') {
-        if ($scope.indexedFiles === undefined) {
-          $scope.alerts(true, 'there are no index file recorded');
-          return null;
-        }
         for (const file in $scope.indexedFiles) {
           updateSearchResult(file, tokens);
         }
