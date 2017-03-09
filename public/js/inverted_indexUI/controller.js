@@ -95,18 +95,6 @@ myApp.controller('homeController',
       return true;
     };
 
-  /** updates searches object with search results
-   * @param {String} file - name of file to search from
-   * @param {Array} tokens - Array of words to search
-   * @return  {boolean}  - true or false
-   */
-    const updateSearchResult = (file, tokens) => {
-      const search = invertedIndex.searchIndex(tokens,
-         $scope.indexedFiles[file]);
-      $scope.searches[file] = search;
-      return true;
-    };
-
   /** get search results for search words
    *
    * @return  {boolean}  - true or false
@@ -125,17 +113,16 @@ myApp.controller('homeController',
       }
       const filteredWords = helpers.filterContent($scope.searchWords);
       const tokens = helpers.removeDuplicates(filteredWords);
-      $scope.searches = {};
       if ($scope.selected === 'All') {
         for (const file in $scope.indexedFiles) {
-          updateSearchResult(file, tokens);
+          $scope.searches = invertedIndex.updateSearchResult(file, tokens);
         }
       } else if (!($scope.selected in $scope.indexedFiles)) {
         $scope.alerts(true, `no index record found for ${$scope.selected}`);
         return null;
       } else {
         const file = $scope.selected;
-        updateSearchResult(file, tokens);
+        $scope.searches = invertedIndex.updateSearchResult(file, tokens);
       }
       $location.path('/searchIndex');
     };
