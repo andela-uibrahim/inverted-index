@@ -1,6 +1,6 @@
 /**
-* helper class for InvertedIndex
-* @class
+* helper object for InvertedIndex
+* @object
 */
 const helpers =
   {
