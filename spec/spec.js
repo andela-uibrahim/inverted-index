@@ -36,26 +36,26 @@ describe('Test the check for index functionality',
    });
 
    it('should return "object" when its type is checked', () => {
-     expect(typeof (invertedIndex.checkForIndex(word,
+     expect(typeof (InvertedIndex.checkForIndex(word,
      filteredContents, wordMap))).toBe('object');
    });
 
    it('should return an object with search word matched with' +
     'an array of true if the word is found in all documents', () => {
-     expect(invertedIndex.checkForIndex(word,
+     expect(InvertedIndex.checkForIndex(word,
      filteredContents, wordMap)).toEqual({
        hello: [true, true, true] });
    });
    it('should return an object with search word matched with' +
     'an array of "false" if the word is not found in all documents', () => {
-     expect(invertedIndex.checkForIndex(word2,
+     expect(InvertedIndex.checkForIndex(word2,
      filteredContents, wordMap)).toEqual({
        usman: [false, false, false] });
    });
    it('should return an object with search word matched with' +
    'an array of boolean with false if present in a document' +
    'and true if otherwise', () => {
-     expect(invertedIndex.checkForIndex(word3,
+     expect(InvertedIndex.checkForIndex(word3,
      filteredContents, wordMap)).toEqual({
        world: [true, true, false] });
    });

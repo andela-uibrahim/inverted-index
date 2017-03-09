@@ -16,7 +16,7 @@ class InvertedIndex {
    * @return  {object}  wordMap - a map of each token to
    *  there respective indexes
    */
-  checkForIndex(word, filteredContents, wordMap) {
+  static checkForIndex(word, filteredContents, wordMap) {
     filteredContents.forEach((book) => {
       if (book.includes(word)) {
         if (!wordMap[word]) {
@@ -42,7 +42,7 @@ class InvertedIndex {
   createIndex(tokens, filteredContents) {
     this.wordMap = {};
     tokens.forEach((word) => {
-      this.checkForIndex(word, filteredContents, this.wordMap);
+      InvertedIndex.checkForIndex(word, filteredContents, this.wordMap);
     });
     return this.wordMap;
   }
