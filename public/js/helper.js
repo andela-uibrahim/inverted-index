@@ -2,18 +2,19 @@
 * helper class for InvertedIndex
 * @class
 */
-class Helpers {
+const helpers =
+  {
   /** validates input file types
    *
    * @param  {object} file - file to validate type
    * @return {boolean} - true or false
    */
-  fileIsValid(file) {
-    if (!file.name.toLowerCase().match(/\.json$/)) {
-      return false;
-    }
-    return true;
-  }
+    fileIsValid(file) {
+      if (!file.name.toLowerCase().match(/\.json$/)) {
+        return false;
+      }
+      return true;
+    },
 
 
   /** validates input book contents
@@ -21,41 +22,41 @@ class Helpers {
    * @param  {array} book - book to validate content
    * @return {boolean} - true or false
    */
-  validFileContent(book) {
-    if (!(book instanceof Array)) {
-      return false;
-    }
-    for (const doc of book) {
-      if ((doc.title === undefined) || (doc.text === undefined)) {
+    validFileContent: (book) => {
+      if (!(book instanceof Array)) {
         return false;
       }
-    }
-    return true;
-  }
+      for (const doc of book) {
+        if ((doc.title === undefined) || (doc.text === undefined)) {
+          return false;
+        }
+      }
+      return true;
+    },
 
   /** removes duplicate from an array
    *
    * @param  {object} doc - document to remove duplicates from
    * @return {array} newlist - array of filtered contents
    */
-  removeDuplicates(doc) {
-    const newList = doc.filter((word, index) =>
+    removeDuplicates: (doc) => {
+      const newList = doc.filter((word, index) =>
       doc.indexOf(word) === index);
-    return newList;
-  }
+      return newList;
+    },
 
   /** remove duplicates from all files documents
    *
    * @param  {params} filteredDocArray - file to validate
    * @return {boolean} - true or false
    */
-  removeDuplicatesInArray(filteredDocArray) {
-    const filteredContents = [];
-    filteredDocArray.forEach((doc) => {
-      filteredContents.push(this.removeDuplicates(doc));
-    });
-    return filteredContents;
-  }
+    removeDuplicatesInArray: (filteredDocArray) => {
+      const filteredContents = [];
+      filteredDocArray.forEach((doc) => {
+        filteredContents.push(helpers.removeDuplicates(doc));
+      });
+      return filteredContents;
+    },
 
   /** filters and return an array of filtered
    *  string with special characters removed
@@ -64,13 +65,13 @@ class Helpers {
    * @param  {String} text - text in book
    * @return {Array} words - Array of filtered book contents
    */
-  filterContent(title, text) {
-    text = text || '';
-    let words = (`${title} ${text}`)
+    filterContent: (title, text) => {
+      text = text || '';
+      let words = (`${title} ${text}`)
       .replace(/[^a-zA-Z ]/g, '').toLowerCase().split(' ');
-    words = words.filter(str => /\S/.test(str));
-    return words;
-  }
+      words = words.filter(str => /\S/.test(str));
+      return words;
+    },
 
   /** applies the filterContent function on all
    * the documents in the selectedBook
@@ -78,14 +79,15 @@ class Helpers {
    * @param  {Array} selectedBook - title and text in book
    * @return {Array} filteredBook - Array of filtered book contents
    */
-  filterBookContents(selectedBook) {
-    const filteredDocArray = [];
-    selectedBook.forEach((content) => {
-      filteredDocArray.push(this.filterContent(content.title, content.text));
-    });
-    const filteredBook = this.removeDuplicatesInArray(filteredDocArray);
-    return filteredBook;
-  }
+    filterBookContents: (selectedBook) => {
+      const filteredDocArray = [];
+      selectedBook.forEach((content) => {
+        filteredDocArray.push(helpers.filterContent(content.title,
+        content.text));
+      });
+      const filteredBook = helpers.removeDuplicatesInArray(filteredDocArray);
+      return filteredBook;
+    },
 
   /** combines all the documents in a book
    * and returns an Array of sorted strings
@@ -94,64 +96,23 @@ class Helpers {
    * @return {Array} sortedArrays - Array of comebined
    * and sorted filtered book content
    */
-  comebineAndSortArrays(filteredContents) {
-    let allStr = '';
-    filteredContents.forEach((z) => {
-      allStr += `${z.join(' ')} `;
-    });
-    const sortedArrays = allStr.trim().split(' ').sort();
-    return sortedArrays;
-  }
+    comebineAndSortArrays: (filteredContents) => {
+      let allStr = '';
+      filteredContents.forEach((z) => {
+        allStr += `${z.join(' ')} `;
+      });
+      const sortedArrays = allStr.trim().split(' ').sort();
+      return sortedArrays;
+    },
 
   /** removes duplicates from combined and sorted book documents
    *
    * @param  {Array} filteredContents - Array of filtered book documents
    * @return {Array} tokens - Array of unique words.
    */
-  getToken(filteredContents) {
-    const freshArray = this.comebineAndSortArrays(filteredContents);
-    const tokens = this.removeDuplicates(freshArray);
-    return tokens;
-  }
-
-  /** reads and load file contents into the contents Array;
-   *
-   * @param  {Array} currentFile - passes the content in current file
-   * @param  {Array} contents - an array that stores the contents
-   * that has been read
-   */
-  updateFiles(currentFile) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsText(currentFile);
-      reader.onload = (e) => {
-        resolve(JSON.parse(e.target.result));
-      };
-    });
-  }
-
-
-  /** handles the file uploads on user request
-   *
-   * @param  {Array} books - an Array of uploaded books and contents.
-   * @param  {Array} filesArray - an Array of bookes without contents.
-   * @param  {Array} contents - an array of uploaded books contents.
-   * @return {Array} array of boolean to signify uploads success of failure.
-   */
-  uploadFiles(books, filesArray) {
-    for (const file of filesArray) {
-      if (this.fileIsValid(file)) {
-        const fileNames = Object.keys(books).map(book => books[book].name);
-        if (!(fileNames.includes(file.name))) {
-          this.updateFiles(file).then((content) => {
-            file.content = content;
-          });
-          books[file.name] = file;
-        }
-      } else {
-        return [false, file];
-      }
-    }
-    return [true];
-  }
-}
+    getToken: (filteredContents) => {
+      const freshArray = helpers.comebineAndSortArrays(filteredContents);
+      const tokens = helpers.removeDuplicates(freshArray);
+      return tokens;
+    },
+  };
