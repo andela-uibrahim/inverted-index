@@ -5,11 +5,12 @@ myApp.controller('homeController',
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
 
-   /** reads and load file contents into the contents Array;
+   /** reads and load file contents;
    *
    * @param  {Array} currentFile - passes the content in current file
    * @param  {Array} contents - an array that stores the contents
    * that has been read
+   * @return {Array} array of documents in book
    */
     const updateFiles = currentFile => new Promise((resolve) => {
       const reader = new FileReader();
@@ -19,7 +20,7 @@ myApp.controller('homeController',
       };
     });
 
-/** handles the file uploads on user request
+  /** handles the file uploads on user request
    *
    * @param  {Array} books - an Array of uploaded books and contents.
    * @param  {Array} filesArr - an Array of bookes without contents.
@@ -43,11 +44,11 @@ myApp.controller('homeController',
       return [true];
     };
 
-/** validates file type and handles the file uploads on user request
- *
- * @param  {element} element  - uploaded files
- * @return {boolean} - true or false
- */
+  /** validates file type and invoke the uploadFiles function
+   *
+   * @param  {element} element  - uploaded files
+   * @return {boolean} - true or false
+   */
     $scope.fileNameChanged = (element) => {
       $scope.$apply(() => {
         filesArray = element.files;
@@ -73,17 +74,19 @@ myApp.controller('homeController',
           $scope.alerts(true, 'No uploaded file record found');
           return null;
         }
-        for (const file in $scope.books) {
+        Object.keys($scope.books).forEach((file) => {
           $scope.indexedFiles =
-          invertedIndex.createFileIndex($scope.books, file, $scope.alerts);
+          invertedIndex.updateIndexedFilesRecords($scope.books,
+          file, $scope.alerts);
           if ($scope.indexedFiles === null) {
             $scope.alerts(true, `invalid file content format.
             ${$scope.selected} please upload a valid file`);
             return null;
           }
-        }
+        });
       } else {
-        $scope.indexedFiles = invertedIndex.createFileIndex($scope.books,
+        $scope.indexedFiles =
+        invertedIndex.updateIndexedFilesRecords($scope.books,
         $scope.selected);
         if ($scope.indexedFiles === null) {
           $scope.alerts(true, `invalid file content format.
@@ -95,50 +98,62 @@ myApp.controller('homeController',
       return true;
     };
 
+  /** validates the type of user input when searching
+   *
+   * @return  {boolean}  - true or false
+   */
+    const validateSearchInput = () => {
+      if (!$scope.searchWords) {
+        $scope.alerts(true, 'no search word entered');
+        return false;
+      } else if (!$scope.selected) {
+        $scope.alerts(true, 'select file to search words from');
+        return false;
+      }
+      if ($scope.indexedFiles === undefined) {
+        $scope.alerts(true, 'there are no index file recorded');
+        return false;
+      }
+      return true;
+    };
+
   /** get search results for search words
    *
    * @return  {boolean}  - true or false
    */
     $scope.getSearchResults = () => {
-      if (!$scope.searchWords) {
-        $scope.alerts(true, 'no search word entered');
-        return null;
-      } else if (!$scope.selected) {
-        $scope.alerts(true, 'select file to search words from');
-        return null;
-      }
-      if ($scope.indexedFiles === undefined) {
-        $scope.alerts(true, 'there are no index file recorded');
-        return null;
-      }
-      const filteredWords = helpers.filterContent($scope.searchWords);
-      const tokens = helpers.removeDuplicates(filteredWords);
-      if ($scope.selected === 'All') {
-        for (const file in $scope.indexedFiles) {
+      const isValid = validateSearchInput();
+      if (isValid) {
+        const filteredWords = helpers.filterContent($scope.searchWords);
+        const tokens = helpers.removeDuplicates(filteredWords);
+        if ($scope.selected === 'All') {
+          Object.keys($scope.indexedFiles).forEach((file) => {
+            $scope.searches = invertedIndex.updateSearchResult(file, tokens);
+          });
+        } else if (!($scope.selected in $scope.indexedFiles)) {
+          $scope.alerts(true, `no index record found for ${$scope.selected}`);
+          return null;
+        } else {
+          const file = $scope.selected;
           $scope.searches = invertedIndex.updateSearchResult(file, tokens);
         }
-      } else if (!($scope.selected in $scope.indexedFiles)) {
-        $scope.alerts(true, `no index record found for ${$scope.selected}`);
-        return null;
-      } else {
-        const file = $scope.selected;
-        $scope.searches = invertedIndex.updateSearchResult(file, tokens);
+        $location.path('/searchIndex');
       }
-      $location.path('/searchIndex');
     };
 
-// redirect to homepage on click of home button
+  /** function to alert user incase of any error
+   * @return {boolean} - true
+   */
     $scope.homePage = () => {
       $location.path('/');
       return true;
     };
 
-  /** handles the file uploads on user request
+  /** function to alert user incase of any error
    *
    * @param  {boolean} show - true or false decides
    * the status of the arert display
    * @param  {String} message - message string to display
-   * @param  {String} type - the boostrap alert class type to display
    * @return {nothing} - nothing
    */
     $scope.alerts = (show, message) => {
