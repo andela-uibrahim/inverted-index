@@ -27,15 +27,15 @@ class InvertedIndex {
       this.tokens = helpers.getToken(this.filteredContents);
       if (!(this.indexedFiles.hasOwnProperty(file))) {
         this.indexedFiles[file] = this.createIndex(this.tokens,
-        this.filteredContents, this.checkForIndex);
+        this.filteredContents);
       }
       return this.indexedFiles;
     }
     return null;
   }
 
-/** creates index and update the indexed files
-  * @param {Array} tokens - object to br returned
+/** creates index for selected files
+  * @param {Array} tokens - an array of filtered words in book
   * @param {Array} filteredContents - an array of all contents in selectedBook
   * @return  {object}  - this.wordMap;- A map of tokens to their indexes
   */
@@ -61,32 +61,31 @@ class InvertedIndex {
 
   /** updates searches object with search results
    * @param {String} file - name of file to search from
-   * @param {Array} tokens - Array of tokens to search
+   * @param {Array} queries - Array of tokens to search
    * @return  {object}  - tokens and searchResults of searched tokens
    */
-  updateSearchResult(file, tokens) {
-    const search = this.searchIndex(tokens,
+  updateSearchResult(file, queries) {
+    const search = this.searchIndex(queries,
     this.indexedFiles[file]);
     this.searchResults[file] = search;
     return this.searchResults;
   }
 
  /** search for words in indexFiles and return the result
-  * @param {Array} tokens - search words
+  * @param {Array} queries - search words
   * @param {object} selectedFileIndexMap - indexMap for selected file
   * @return  {object}  - this.searchMap map of search token to it searchResult
   */
-  searchIndex(tokens, selectedFileIndexMap) {
+  searchIndex(queries, selectedFileIndexMap) {
     this.searchMap = {};
-    tokens.forEach((token) => {
-      if (token in selectedFileIndexMap) {
-        this.searchMap[token] = selectedFileIndexMap[token];
+    queries.forEach((query) => {
+      if (query in selectedFileIndexMap) {
+        this.searchMap[query] = selectedFileIndexMap[query];
       } else {
-        this.searchMap[token] = Array(3).fill(false);
+        this.searchMap[query] = Array(3).fill(false);
       }
     });
     return this.searchMap;
   }
-
 }
 

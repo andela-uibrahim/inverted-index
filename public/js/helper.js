@@ -19,7 +19,7 @@ const helpers =
   /** validates input book contents
    *
    * @param  {array} book - book to validate content
-   * @return {boolean} result- true or false
+   * @return {boolean} result true or false
    */
     validFileContent: (book) => {
       let result = true;
@@ -27,7 +27,7 @@ const helpers =
         return false;
       }
       book.forEach((doc) => {
-        if ((doc.title === undefined) || (doc.text === undefined)) {
+        if ((!doc.title) || (!doc.text)) {
           result = false;
         }
       });
@@ -47,7 +47,7 @@ const helpers =
 
   /** remove duplicates from all files documents
    *
-   * @param  {params} filteredDocArray - file to validate
+   * @param  {Array} filteredDocArray - file to validate
    * @return {boolean} - true or false
    */
     removeDuplicatesInArray: (filteredDocArray) => {

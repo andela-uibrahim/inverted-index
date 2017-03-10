@@ -1,7 +1,7 @@
 myApp.controller('homeController',
   ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
     let filesArray;
-    $scope.books = {};
+    $scope.files = {};
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
 
@@ -23,16 +23,17 @@ myApp.controller('homeController',
   /** handles the file uploads on user request
    *
    * @param  {Array} books - an Array of uploaded books and contents.
-   * @param  {Array} filesArr - an Array of bookes without contents.
+   * @param  {Array} files - an Array of books without contents.
    * @param  {Array} contents - an array of uploaded books contents.
    * @return {Array} array of boolean to signify uploads success of failure.
    */
-    const uploadFiles = (books, filesArr) => {
-      for (const file of filesArr) {
+    const uploadFiles = (books, files) => {
+      for (const file of files) {
         if (helpers.fileIsValid(file)) {
           const fileNames = Object.keys(books).map(book => books[book].name);
           if (!(fileNames.includes(file.name))) {
-            updateFiles(file).then((content) => {
+            updateFiles(file)
+            .then((content) => {
               file.content = content;
             });
             books[file.name] = file;
@@ -53,7 +54,7 @@ myApp.controller('homeController',
       $scope.$apply(() => {
         filesArray = element.files;
         let validationResult = true;
-        validationResult = uploadFiles($scope.books,
+        validationResult = uploadFiles($scope.files,
          filesArray);
         if (validationResult[0] === false) {
           $scope.alerts(true, `unable to upload. ${validationResult[1].name}
@@ -70,13 +71,13 @@ myApp.controller('homeController',
    */
     $scope.createIndex = () => {
       if ($scope.selected === 'All') {
-        if (Object.keys($scope.books).length === 0) {
+        if (Object.keys($scope.files).length === 0) {
           $scope.alerts(true, 'No uploaded file record found');
           return null;
         }
-        Object.keys($scope.books).forEach((file) => {
+        Object.keys($scope.files).forEach((file) => {
           $scope.indexedFiles =
-          invertedIndex.updateIndexedFilesRecords($scope.books,
+          invertedIndex.updateIndexedFilesRecords($scope.files,
           file, $scope.alerts);
           if ($scope.indexedFiles === null) {
             $scope.alerts(true, `invalid file content format.
@@ -86,7 +87,7 @@ myApp.controller('homeController',
         });
       } else {
         $scope.indexedFiles =
-        invertedIndex.updateIndexedFilesRecords($scope.books,
+        invertedIndex.updateIndexedFilesRecords($scope.files,
         $scope.selected);
         if ($scope.indexedFiles === null) {
           $scope.alerts(true, `invalid file content format.
@@ -94,7 +95,7 @@ myApp.controller('homeController',
           return null;
         }
       }
-      $location.path('/showIndex');
+      $location.path('/show-index');
       return true;
     };
 
@@ -110,7 +111,7 @@ myApp.controller('homeController',
         $scope.alerts(true, 'select file to search words from');
         return false;
       }
-      if ($scope.indexedFiles === undefined) {
+      if (!$scope.indexedFiles) {
         $scope.alerts(true, 'there are no index file recorded');
         return false;
       }
@@ -125,19 +126,19 @@ myApp.controller('homeController',
       const isValid = validateSearchInput();
       if (isValid) {
         const filteredWords = helpers.filterContent($scope.searchWords);
-        const tokens = helpers.removeDuplicates(filteredWords);
+        const queries = helpers.removeDuplicates(filteredWords);
         if ($scope.selected === 'All') {
           Object.keys($scope.indexedFiles).forEach((file) => {
-            $scope.searches = invertedIndex.updateSearchResult(file, tokens);
+            $scope.searches = invertedIndex.updateSearchResult(file, queries);
           });
         } else if (!($scope.selected in $scope.indexedFiles)) {
           $scope.alerts(true, `no index record found for ${$scope.selected}`);
           return null;
         } else {
           const file = $scope.selected;
-          $scope.searches = invertedIndex.updateSearchResult(file, tokens);
+          $scope.searches = invertedIndex.updateSearchResult(file, queries);
         }
-        $location.path('/searchIndex');
+        $location.path('/search-index');
       }
     };
 

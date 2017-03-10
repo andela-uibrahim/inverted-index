@@ -9,13 +9,13 @@ myApp.config(($routeProvider) => {
   })
 
    // index pages
-  .when('/showIndex', {
+  .when('/show-index', {
     templateUrl: 'templates/table.html',
     controller: 'homeController'
   })
 
 // search pages
-  .when('/searchIndex', {
+  .when('/search-index', {
     templateUrl: 'templates/search.html',
     controller: 'homeController'
   })
