@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const invertedIndex = new InvertedIndex();
 
 describe('InvertedIndex class',

@@ -95,7 +95,9 @@ const helpers =
     filterContent: (title, text) => {
       text = text || '';
       let words = (`${title} ${text}`)
-      .replace(/[^a-zA-Z ]/g, '').toLowerCase().split(' ');
+      .replace(/[^a-zA-Z ]/g, '')
+      .toLowerCase()
+      .split(' ');
       words = words.filter(str => /\S/.test(str));
       return words;
     },

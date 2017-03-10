@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const myApp = angular.module('myApp', ['ngRoute']);
 
 myApp.config(($routeProvider) => {

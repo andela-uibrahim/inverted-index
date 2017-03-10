@@ -1,3 +1,4 @@
+/* eslint-disable */
 myApp.controller('homeController',
   ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
     let filesArray;
