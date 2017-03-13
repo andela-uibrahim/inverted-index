@@ -77,7 +77,7 @@ describe('searchIndex method',
    let tokens;
    let file;
    beforeEach(() => {
-     tokens = ['alice', 'ee', 'enters'];
+     tokens = ['alice', 'ee', 'enters', 'zebra'];
      file = 'touch.json';
    });
 
@@ -91,7 +91,8 @@ describe('searchIndex method',
        'touch.json': {
          alice: [true, false, false],
          ee: [false, false, true],
-         enters: [true, false, false]
+         enters: [true, false, false],
+         zebra: [false, false, false]
        }
      });
    });
