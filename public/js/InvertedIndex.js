@@ -1,4 +1,4 @@
-/* eslint-disable no-unde*/
+/* eslint-disable no-undef */
 /**
  * InvertedIndex class with constructor
  * @class
