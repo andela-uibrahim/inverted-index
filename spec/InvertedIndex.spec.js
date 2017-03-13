@@ -236,9 +236,11 @@ describe('helper.filterBookContents function',
     ' when it is invoked with books that contains' +
     ' only title and no text', () => {
      expect(helpers.filterBookContents(book2)).toEqual(
-       [['alice'], ['fellowship'],
-       ['thee', 'ee']]
-       );
+       [
+         ['alice'],
+        ['fellowship'],
+       ['thee', 'ee']
+       ]);
    });
  });
 
@@ -253,9 +255,11 @@ describe('helper.getTokens function',
 
    it('should return "an array" of sorted non-repeated/unique tokens present' +
      ' in the filterBookContents it is invoked with', () => {
-     expect(helpers.getToken([['guy', 'alice', 'hello', 'world'], ['alice',
-       'hello', 'man', 'man', 'world'], ['alice', 'hello',
-         'world']])).toEqual(['alice', 'guy', 'hello', 'man', 'world']);
+     expect(helpers.getToken([
+       ['guy', 'alice', 'hello', 'world'],
+       ['alice', 'hello', 'man', 'man', 'world'],
+       ['alice', 'hello', 'world']]))
+       .toEqual(['alice', 'guy', 'hello', 'man', 'world']);
    });
  });
 
@@ -263,17 +267,22 @@ describe('helper.removeDuplicatesInArray function',
  () => {
    it('should return " array " when invoked with' +
    ' filterBookContents', () => {
-     expect((helpers.removeDuplicatesInArray([['alice',
-       'alice', 'world'], ['hello', 'hello', 'world'], ['alice',
-         'world', 'world']])) instanceof Array).toBeTruthy();
+     expect((helpers.removeDuplicatesInArray([
+       ['alice', 'alice', 'world'],
+       ['hello', 'hello', 'world'],
+       ['alice', 'world', 'world']])) instanceof Array)
+       .toBeTruthy();
    });
 
    it('should return "an array of books with filtered contents" ' +
    'when it is invoked with a book that contains unfiltered content', () => {
-     expect(helpers.removeDuplicatesInArray([['alice', 'alice', 'world'],
-       ['hello', 'hello', 'world'], ['alice', 'world',
-         'world']])).toEqual([['alice', 'world'], ['hello', 'world'],
-          ['alice', 'world']]);
+     expect(helpers.removeDuplicatesInArray([
+       ['alice', 'alice', 'world'],
+       ['hello', 'hello', 'world'],
+       ['alice', 'world', 'world']]))
+       .toEqual([['alice', 'world'],
+        ['hello', 'world'],
+        ['alice', 'world']]);
    });
  });
 
@@ -287,7 +296,7 @@ describe('helper.removeDuplicatesInArray method',
 
    it('should return "an array of books with filtered contents"' +
    ' when it is invoked with an unfiltered book', () => {
-     expect(helpers.removeDuplicates(['alice', 'alice',
-       'world'])).toEqual(['alice', 'world']);
+     expect(helpers.removeDuplicates(
+       ['alice', 'alice', 'world'])).toEqual(['alice', 'world']);
    });
  });
