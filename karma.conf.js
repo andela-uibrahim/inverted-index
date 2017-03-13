@@ -17,8 +17,9 @@ module.exports = (config) => {
     files: ['lib/jquery/jquery-3.1.1.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js',
       'https://code.angularjs.org/1.6.1/angular-route.min.js',
-      'public/js/*.js',
-      'public/js/**/*.js',
+      'public/js/helper.js',
+      'public/js/InvertedIndex.js',
+      'public/js/InvertedIndexUI/*.js',
       'spec/*.js'
     ],
 
