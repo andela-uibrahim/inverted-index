@@ -78,7 +78,7 @@ myApp.controller('homeController',
         }
         Object.keys($scope.files).forEach((file) => {
           $scope.indexedFiles =
-          invertedIndex.updateIndexedFilesRecords($scope.files,
+          invertedIndex.storeIndex($scope.files,
           file, $scope.alerts);
           if ($scope.indexedFiles === null) {
             $scope.alerts(true, `invalid file content format.
@@ -88,7 +88,7 @@ myApp.controller('homeController',
         });
       } else {
         $scope.indexedFiles =
-        invertedIndex.updateIndexedFilesRecords($scope.files,
+        invertedIndex.storeIndex($scope.files,
         $scope.selected);
         if ($scope.indexedFiles === null) {
           $scope.alerts(true, `invalid file content format.
@@ -130,14 +130,14 @@ myApp.controller('homeController',
         const queries = helpers.removeDuplicates(filteredWords);
         if ($scope.selected === 'All') {
           Object.keys($scope.indexedFiles).forEach((file) => {
-            $scope.searches = invertedIndex.updateSearchResult(file, queries);
+            $scope.searches = invertedIndex.searchIndex(file, queries);
           });
         } else if (!($scope.selected in $scope.indexedFiles)) {
           $scope.alerts(true, `no index record found for ${$scope.selected}`);
           return null;
         } else {
           const file = $scope.selected;
-          $scope.searches = invertedIndex.updateSearchResult(file, queries);
+          $scope.searches = invertedIndex.searchIndex(file, queries);
         }
         $location.path('/search-index');
       }

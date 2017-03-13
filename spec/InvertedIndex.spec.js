@@ -7,7 +7,7 @@ describe('InvertedIndex class',
   () => expect(invertedIndex instanceof InvertedIndex).toBeTruthy());
  });
 
-describe('updateIndexedFilesRecords method',
+describe('storeIndex method',
  () => {
    let books;
    let file;
@@ -27,7 +27,7 @@ describe('updateIndexedFilesRecords method',
    });
 
    it('should update the indexedFiles record when it is invoked', () => {
-     expect(invertedIndex.updateIndexedFilesRecords(books, file)).toEqual({
+     expect(invertedIndex.storeIndex(books, file)).toEqual({
        'touch.json': { a: [true, false, false],
          alice: [true, false, false],
          ee: [false, false, true],
@@ -42,7 +42,7 @@ describe('updateIndexedFilesRecords method',
    });
 
    it('should return null for fake invertedIndex books format', () => {
-     expect(invertedIndex.updateIndexedFilesRecords(books, file2)).toBe(null);
+     expect(invertedIndex.storeIndex(books, file2)).toBe(null);
    });
  });
 
@@ -58,14 +58,14 @@ describe('createIndex method',
    });
 
    it('should return "object" when its type is checked', () => {
-     expect(typeof (invertedIndex.createIndex(firstContent,
-     filteredContents, invertedIndex.checkForIndex))).toBe('object');
+     expect(typeof (InvertedIndex.createIndex(firstContent,
+     filteredContents))).toBe('object');
    });
 
    it('should return an object map of tokens and their indexes' +
     ' when it is invoked', () => {
-     expect(invertedIndex.createIndex(firstContent,
-     filteredContents, invertedIndex.checkForIndex)).toEqual({
+     expect(InvertedIndex.createIndex(firstContent,
+     filteredContents)).toEqual({
        hello: [true, true, true],
        world: [true, true, false]
      });
@@ -75,35 +75,6 @@ describe('createIndex method',
 describe('searchIndex method',
  () => {
    let tokens;
-   let indexx;
-   beforeEach(() => {
-     tokens = ['hello', 'world', 'alice', 'man'];
-     indexx = {
-       man: [true, false, false],
-       hello: [true, true, false],
-       indian: [true, false, true]
-     };
-   });
-
-   it('should return "object" when its type is checked', () => {
-     expect(typeof (invertedIndex.searchIndex(tokens, indexx))).toBe('object');
-   });
-
-   it('should return an object with searched tokens' +
-     ' and their indexes when it is invoked ',
-    () => {
-      expect(invertedIndex.searchIndex(tokens, indexx)).toEqual({
-        hello: [true, true, false],
-        world: [false, false, false],
-        alice: [false, false, false],
-        man: [true, false, false]
-      });
-    });
- });
-
-describe('updateSearchResult method',
- () => {
-   let tokens;
    let file;
    beforeEach(() => {
      tokens = ['alice', 'ee', 'enters'];
@@ -111,12 +82,12 @@ describe('updateSearchResult method',
    });
 
    it('should return "object" when its type is checked', () => {
-     expect(typeof (invertedIndex.updateSearchResult(file, tokens)))
+     expect(typeof (invertedIndex.searchIndex(file, tokens)))
      .toBe('object');
    });
 
    it('should update the search record when it is invoked', () => {
-     expect(invertedIndex.updateSearchResult(file, tokens)).toEqual({
+     expect(invertedIndex.searchIndex(file, tokens)).toEqual({
        'touch.json': {
          alice: [true, false, false],
          ee: [false, false, true],
@@ -198,16 +169,17 @@ describe('helper.comebineAndSortArray function',
 
    it('should return an array when it is invoked' +
    ' with a valid json file input', () => {
-     expect((helpers.comebineAndSortArrays(book1)) instanceof Array).toBeTruthy();
+     expect((helpers.mergeDocuments(book1))
+    instanceof Array).toBeTruthy();
    });
 
    it('should return "an array of comebined and sorted contents"' +
    ' when it is invoked with a valid book', () => {
-     expect(helpers.comebineAndSortArrays(book1)).toEqual(['alice', 'enters',
+     expect(helpers.mergeDocuments(book1)).toEqual(['alice', 'enters',
        'fellowship', 'thee', 'usuals', 'wizard']);
    });
  });
-describe('helper.filterBookContents function',
+describe('helper.filterFileContent function',
  () => {
    let book1;
    let book2;
@@ -221,12 +193,12 @@ describe('helper.filterBookContents function',
    });
 
    it('should return " array " for a valid json file input', () => {
-     expect((helpers.filterBookContents(book1)) instanceof Array).toBeTruthy();
+     expect((helpers.filterFileContent(book1)) instanceof Array).toBeTruthy();
    });
 
    it('should return "an array of books with filtered contents"' +
    ' when it is invoked with a book', () => {
-     expect(helpers.filterBookContents(book1)).toEqual(
+     expect(helpers.filterFileContent(book1)).toEqual(
        [['alice', 'enters', 'a'], ['fellowship', 'wizard', 'on'],
        ['thee', 'ee', 'un', 'usuals']]
        );
@@ -235,7 +207,7 @@ describe('helper.filterBookContents function',
    it('should return "an array of books with filtered contents"' +
     ' when it is invoked with books that contains' +
     ' only title and no text', () => {
-     expect(helpers.filterBookContents(book2)).toEqual(
+     expect(helpers.filterFileContent(book2)).toEqual(
        [
          ['alice'],
         ['fellowship'],
@@ -246,7 +218,7 @@ describe('helper.filterBookContents function',
 
 describe('helper.getTokens function',
  () => {
-   it('should return "an array" when it is invoked with filterBookContents',
+   it('should return "an array" when it is invoked with filterFileContent',
    () => {
      expect((helpers.getToken([['alice', 'hello', 'world'],
        ['alice', 'hello', 'world'], ['alice',
@@ -254,7 +226,7 @@ describe('helper.getTokens function',
    });
 
    it('should return "an array" of sorted non-repeated/unique tokens present' +
-     ' in the filterBookContents it is invoked with', () => {
+     ' in the filterFileContent it is invoked with', () => {
      expect(helpers.getToken([
        ['guy', 'alice', 'hello', 'world'],
        ['alice', 'hello', 'man', 'man', 'world'],
@@ -263,11 +235,11 @@ describe('helper.getTokens function',
    });
  });
 
-describe('helper.removeDuplicatesInArray function',
+describe('helper.removeDocDuplicates function',
  () => {
    it('should return " array " when invoked with' +
-   ' filterBookContents', () => {
-     expect((helpers.removeDuplicatesInArray([
+   ' filterFileContent', () => {
+     expect((helpers.removeDocDuplicates([
        ['alice', 'alice', 'world'],
        ['hello', 'hello', 'world'],
        ['alice', 'world', 'world']])) instanceof Array)
@@ -276,7 +248,7 @@ describe('helper.removeDuplicatesInArray function',
 
    it('should return "an array of books with filtered contents" ' +
    'when it is invoked with a book that contains unfiltered content', () => {
-     expect(helpers.removeDuplicatesInArray([
+     expect(helpers.removeDocDuplicates([
        ['alice', 'alice', 'world'],
        ['hello', 'hello', 'world'],
        ['alice', 'world', 'world']]))
@@ -286,10 +258,10 @@ describe('helper.removeDuplicatesInArray function',
    });
  });
 
-describe('helper.removeDuplicatesInArray method',
+describe('helper.removeDocDuplicates method',
  () => {
    it('should return " array " sorted non-repeated/unique tokens present' +
-     ' in the filterBookContents', () => {
+     ' in the filterFileContent', () => {
      expect(helpers.removeDuplicates(['alice', 'alice',
        'world']) instanceof Array).toBeTruthy();
    });
