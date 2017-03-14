@@ -1,156 +1,64 @@
 /* eslint-disable no-undef */
 const invertedIndex = new InvertedIndex();
+const file1 = require('../books/adventureBooks.json');
+const file2 = require('../books/emptyBook.json');
+const file3 = require('../books/wrongFormat.json');
 
-describe('InvertedIndex class',
- () => {
-   it('should create an instance of itself on instantiation',
-  () => expect(invertedIndex instanceof InvertedIndex).toBeTruthy());
- });
-
-describe('storeIndex method',
- () => {
-   let books;
-   let file;
-   let file2;
-   beforeEach(() => {
-     books = { 'touch.json': {
-       content: [{ title: 'Alice , / ?', text: 'enters a a.' },
-     { title: 'Fellowship )&* ...', text: 'wizard on on' },
-     { title: 'Thee + = - ee', text: 'un un usuals' }] },
-       'tests.json': {
-         content: [{ cat: 'Alice , / ?', text: 'enters a a.' },
-     { catter: 'Fellowship )&* ...', text: 'wizard on on' },
-     { title: 'Thee + = - ee', text: 'un un usuals' }] }
-     };
-     file = 'touch.json';
-     file2 = 'tests.json';
-   });
-
-   it('should update the indexedFiles record when it is invoked', () => {
-     expect(invertedIndex.storeIndex(books, file)).toEqual({
-       'touch.json': { a: [true, false, false],
-         alice: [true, false, false],
-         ee: [false, false, true],
-         enters: [true, false, false],
-         fellowship: [false, true, false],
-         on: [false, true, false],
-         thee: [false, false, true],
-         un: [false, false, true],
-         usuals: [false, false, true],
-         wizard: [false, true, false] }
-     });
-   });
-
-   it('should return null for fake invertedIndex books format', () => {
-     expect(invertedIndex.storeIndex(books, file2)).toBe(null);
-   });
- });
-
-describe('createIndex method',
- () => {
-   let firstContent;
-   let secondContent;
-   let filteredContents;
-   beforeEach(() => {
-     firstContent = ['hello', 'world'];
-     secondContent = ['hello', 'bayo'];
-     filteredContents = [firstContent, firstContent, secondContent];
-   });
-
-   it('should return "object" when its type is checked', () => {
-     expect(typeof (InvertedIndex.createIndex(firstContent,
-     filteredContents))).toBe('object');
-   });
-
-   it('should return an object map of tokens and their indexes' +
-    ' when it is invoked', () => {
-     expect(InvertedIndex.createIndex(firstContent,
-     filteredContents)).toEqual({
-       hello: [true, true, true],
-       world: [true, true, false]
-     });
-   });
- });
-
-describe('searchIndex method',
- () => {
-   let tokens;
-   let file;
-   beforeEach(() => {
-     tokens = ['alice', 'ee', 'enters', 'zebra'];
-     file = 'touch.json';
-   });
-
-   it('should return "object" when its type is checked', () => {
-     expect(typeof (invertedIndex.searchIndex(file, tokens)))
-     .toBe('object');
-   });
-
-   it('should update the search record when it is invoked', () => {
-     expect(invertedIndex.searchIndex(file, tokens)).toEqual({
-       'touch.json': {
-         alice: [true, false, false],
-         ee: [false, false, true],
-         enters: [true, false, false],
-         zebra: [false, false, false]
-       }
-     });
-   });
- });
-
+const uploads = {
+  'adventureBooks.json': { content: file1 },
+  'emptyBook.json': { content: file2 },
+  'wrongFormat.json': { content: file3 }
+};
 
 describe('helpers.fileIsValid function',
  () => {
-   let file1;
-   let file2;
-   let file3;
-   let file4;
+   let goodFile1;
+   let badFile1;
+   let badFile2;
+   let goodFile2;
    beforeEach(() => {
-     file1 = { name: 'book.json' };
-     file2 = { name: 'book.css' };
-     file3 = { name: 'book' };
-     file4 = { name: 'book.JSON' };
+     goodFile1 = { name: 'book.json' };
+     badFile1 = { name: 'book.css' };
+     badFile2 = { name: 'book' };
+     goodFile2 = { name: 'book.JSON' };
    });
 
    it('should return "true" for a valid json file when its is invoked', () => {
-     expect(helpers.fileIsValid(file1)).toBe(true);
-     expect(helpers.fileIsValid(file4)).toBe(true);
+     expect(helpers.fileIsValid(goodFile1)).toBe(true);
+     expect(helpers.fileIsValid(goodFile2)).toBe(true);
    });
 
    it('should return "false" for an invalid file when it is invoked', () => {
-     expect(helpers.fileIsValid(file2)).toBe(false);
-     expect(helpers.fileIsValid(file3)).toBe(false);
+     expect(helpers.fileIsValid(badFile1)).toBe(false);
+     expect(helpers.fileIsValid(badFile2)).toBe(false);
    });
  });
 
 describe('helper.validateFileContents function',
  () => {
-   let book1;
-   let book2;
    let book3;
    let book4;
    beforeEach(() => {
-     book1 = [{ title: 'Alice , / ?', text: 'enters a a.' },
-     { title: 'Fellowship )&* ...', text: 'wizard on on' },
-     { title: 'Thee + = - ee', text: 'un un usuals' }];
-     book2 = { men: 'kskkskskskkskskskksksk' };
      book3 = { boy: 'usman', girl: 'dammy' };
      book4 = 'this is the way we roll around here';
    });
 
    it('should return boolean when invoked with' +
    ' a valid json file input', () => {
-     expect(typeof (helpers.validFileContent(book1))).toBe('boolean');
+     expect(typeof (helpers.validFileContent(
+       uploads['adventureBooks.json'].content))).toBe('boolean');
    });
 
    it('should return true when invoked with' +
    ' a valid file contents', () => {
-     expect(helpers.validFileContent(book1)).toBe(true);
+     expect(helpers.validFileContent(
+       uploads['adventureBooks.json'].content)).toBe(true);
    });
 
    it('should return false when invoked with' +
    ' an invalid data format', () => {
-     expect(helpers.validFileContent(book2)).toBe(false);
+     expect(helpers.validFileContent(
+       uploads['wrongFormat.json'].content)).toBe(false);
      expect(helpers.validFileContent(book3)).toBe(false);
      expect(helpers.validFileContent(book4)).toBe(false);
    });
@@ -160,7 +68,7 @@ describe('helper.validateFileContents function',
    });
  });
 
-describe('helper.comebineAndSortArray function',
+describe('helper.mergeDocuments function',
  () => {
    let book1;
    beforeEach(() => {
@@ -273,3 +181,96 @@ describe('helper.removeDocDuplicates method',
        ['alice', 'alice', 'world'])).toEqual(['alice', 'world']);
    });
  });
+
+describe('InvertedIndex class',
+ () => {
+   it('should create an instance of itself on instantiation',
+  () => expect(invertedIndex instanceof InvertedIndex).toBeTruthy());
+ });
+
+describe('createIndex method',
+ () => {
+   it('should update the indexedFiles record when it is invoked', () => {
+     expect(invertedIndex.createIndex(uploads, 'adventureBooks.json')).toEqual({
+       'adventureBooks.json':
+       { a: [true, true, false],
+         alice: [true, false, false],
+         alliance: [false, true, false],
+         an: [false, true, false],
+         and: [true, true, true],
+         battles: [false, false, true],
+         came: [false, false, true],
+         contact: [false, false, true],
+         destroy: [false, true, false],
+         during: [false, false, true],
+         dwarf: [false, true, false],
+         elf: [false, true, false],
+         enters: [true, false, false],
+         falls: [true, false, false],
+         fellowship: [false, true, false],
+         fire: [false, false, true],
+         full: [true, false, false],
+         goblet: [false, false, true],
+         harry: [false, false, true],
+         his: [false, false, true],
+         hobbit: [false, true, false],
+         hole: [true, false, false],
+         imagination: [true, false, false],
+         in: [true, false, true],
+         into: [true, false, false],
+         lord: [false, true, false],
+         man: [false, true, false],
+         of: [true, true, true],
+         persia: [false, false, true],
+         potter: [false, false, true],
+         powerful: [false, true, false],
+         prince: [false, false, true],
+         rabbit: [true, false, false],
+         ring: [false, true, false],
+         rings: [false, true, false],
+         seek: [false, true, false],
+         the: [false, true, true],
+         to: [false, true, false],
+         unusual: [false, true, false],
+         with: [false, false, true],
+         wizard: [false, true, false],
+         wonderland: [true, false, false],
+         world: [true, false, false]
+       }
+     }
+     );
+   });
+
+   it('should return null for fake invertedIndex books format', () => {
+     expect(invertedIndex.createIndex(uploads, 'wrongFormat.json')).toBe(null);
+   });
+   it('should return null for empty file', () => {
+     expect(invertedIndex.createIndex(uploads, 'emptyBook.json')).toBe(null);
+   });
+ });
+
+describe('searchIndex method',
+ () => {
+   let tokens;
+   beforeEach(() => {
+     tokens = ['alice', 'imagination', 'enters', 'powerful', 'usman'];
+   });
+
+   it('should return "object" when its type is checked', () => {
+     expect(typeof (invertedIndex.searchIndex('adventureBooks.json', tokens)))
+     .toBe('object');
+   });
+
+   it('should update the search record when it is invoked', () => {
+     expect(invertedIndex.searchIndex('adventureBooks.json', tokens)).toEqual({
+       'adventureBooks.json': {
+         alice: [true, false, false],
+         enters: [true, false, false],
+         imagination: [true, false, false],
+         powerful: [false, true, false],
+         usman: [false, false, false]
+       }
+     });
+   });
+ });
+

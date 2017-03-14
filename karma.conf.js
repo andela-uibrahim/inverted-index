@@ -20,7 +20,7 @@ module.exports = (config) => {
       'public/js/helper.js',
       'public/js/InvertedIndex.js',
       'public/js/InvertedIndexUI/*.js',
-      'spec/*.js'
+      'spec/InvertedIndex.spec.bundled.js'
     ],
 
 
@@ -33,7 +33,6 @@ module.exports = (config) => {
 // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 
     preprocessors: {
-        // 'spec/*.js': ['coverage']
       'public/js/*.js': ['coverage']
     },
 

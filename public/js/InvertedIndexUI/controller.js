@@ -78,7 +78,7 @@ myApp.controller('homeController',
         }
         Object.keys($scope.files).forEach((file) => {
           $scope.indexedFiles =
-          invertedIndex.storeIndex($scope.files,
+          invertedIndex.createIndex($scope.files,
           file, $scope.alerts);
           if ($scope.indexedFiles === null) {
             $scope.alerts(true, `invalid file content format.
@@ -88,7 +88,7 @@ myApp.controller('homeController',
         });
       } else {
         $scope.indexedFiles =
-        invertedIndex.storeIndex($scope.files,
+        invertedIndex.createIndex($scope.files,
         $scope.selected);
         if ($scope.indexedFiles === null) {
           $scope.alerts(true, `invalid file content format.

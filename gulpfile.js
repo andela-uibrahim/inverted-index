@@ -1,5 +1,7 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
 
 gulp.task('browser', () => {
   browserSync.init({
@@ -21,8 +23,15 @@ gulp.task('watch', ['browser'], () => {
   gulp.watch('public/js/InvertedIndexUI/*.js', browserSync.reload);
 });
 
+gulp.task('browserify', () =>
+  browserify('spec/InvertedIndex.spec.js')
+  .bundle()
+  .pipe(source('InvertedIndex.spec.bundled.js'))
+  .pipe(gulp.dest('spec/'))
+);
+
 gulp.task('travis', ['build', 'testServerJs'], () => {
   process.exit(0);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'browserify']);
