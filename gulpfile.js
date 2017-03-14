@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
+const Server = require('karma').Server;
 
 gulp.task('browser', () => {
   browserSync.init({
@@ -29,6 +30,13 @@ gulp.task('browserify', () =>
   .pipe(source('InvertedIndex.spec.bundled.js'))
   .pipe(gulp.dest('spec/'))
 );
+
+gulp.task('runtests', ['browserify'], (done) => {
+  new Server({
+    configFile: `${__dirname}/karma.conf.js`,
+    singleRun: true
+  }, done).start();
+});
 
 gulp.task('travis', ['build', 'testServerJs'], () => {
   process.exit(0);
