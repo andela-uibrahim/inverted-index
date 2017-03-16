@@ -4,16 +4,13 @@
 		<thead>
 			<tr>
 				<th class="text-center">Word</th>
-				<th class="text-center" ng-repeat="title in titles">Doc_{{title + 1}}</th>
-				<!--<th class="text-center">Doc_1</th>
-				<th class="text-center">Doc_2</th>
-				<th class="text-center">Doc_3</th>-->
+				<th class="text-center" ng-repeat="title in titles[file]">Doc_{{title + 1}}</th>
 			</tr>
 		</thead>
 		<tbody class="table-content">
 			<tr ng-repeat="(word, wordArr) in  searchResult">
 				<td class="text-center">{{word}}</td>
-				<td class="text-center" ng-repeat="title in titles">
+				<td class="text-center" ng-repeat="title in titles[file]">
 					<span ng-if="wordArr[title]">
 						<span class="glyphicon glyphicon-ok"></span>
 					</span>
