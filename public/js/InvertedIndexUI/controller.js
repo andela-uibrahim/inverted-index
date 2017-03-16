@@ -3,7 +3,9 @@ myApp.controller('homeController',
   ['$scope', '$location','$rootScope', '$timeout', function ($scope, $location, $rootScope, $timeout) {
     let filesArray;
     $scope.files = {};
-    $rootScope.titles = {};
+    if (!$rootScope.titles) {
+      $rootScope.titles = {};
+    }
     $scope.searchWords = '';
     const invertedIndex = new InvertedIndex();
 
@@ -158,6 +160,7 @@ myApp.controller('homeController',
    * @return {boolean} - true
    */
     $scope.homePage = () => {
+      $scope.indexedFiles = null;
       $location.path('/');
       return true;
     };
