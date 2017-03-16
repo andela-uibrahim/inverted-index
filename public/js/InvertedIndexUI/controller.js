@@ -80,6 +80,10 @@ myApp.controller('homeController',
           $scope.indexedFiles =
           invertedIndex.createIndex($scope.files,
           file, $scope.alerts);
+          $scope.titles = Object.values($scope.indexedFiles[$scope.selected])[0]
+          .map((title, index) => {
+            return index;
+          });
           if ($scope.indexedFiles === null) {
             $scope.alerts(true, `invalid file content format.
             ${$scope.selected} please upload a valid file`);
@@ -90,6 +94,10 @@ myApp.controller('homeController',
         $scope.indexedFiles =
         invertedIndex.createIndex($scope.files,
         $scope.selected);
+        $scope.titles = Object.values($scope.indexedFiles[$scope.selected])[0]
+        .map((title, index) => {
+          return index;
+        });
         if ($scope.indexedFiles === null) {
           $scope.alerts(true, `invalid file content format.
           ${$scope.selected} please upload a valid file`);

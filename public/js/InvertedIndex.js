@@ -46,6 +46,7 @@ class InvertedIndex {
         });
         this.indices[fileName] = wordMap;
       }
+      console.log(this.indices);
       return this.indices;
     }
     return null;
@@ -62,7 +63,8 @@ class InvertedIndex {
       if (query in this.indices[fileName]) {
         searchMap[query] = this.indices[fileName][query];
       } else {
-        searchMap[query] = Array(3).fill(false);
+        const length = Object.values(this.indices[fileName])[0].length;
+        searchMap[query] = Array(length).fill(false);
       }
     });
     this.searchResults[fileName] = searchMap;

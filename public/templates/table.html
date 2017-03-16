@@ -12,17 +12,20 @@
 						<thead>
 							<tr>
 								<th class="text-center">Word</th>
-								<th class="text-center">Doc_1</th>
-								<th class="text-center">Doc_2</th>
-								<th class="text-center">Doc_3</th>
+								<th class="text-center" ng-repeat="title in titles">Doc_{{title + 1}}</th>
 							</tr>
 						</thead>
 						<tbody class="table-content">
 							<tr ng-repeat="(word, wordArr) in content">
 								<td class="text-center">{{word}}</td>
-								<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : wordArr[0] === true , 'glyphicon glyphicon-remove' : wordArr[0] === false}"></span></td>
-								<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : wordArr[1] === true , 'glyphicon glyphicon-remove' : wordArr[1] === false}"></span></td>
-								<td class="text-center"><span ng-class="{'glyphicon glyphicon-ok' : wordArr[2] === true , 'glyphicon glyphicon-remove' : wordArr[2] === false}"></span></td>
+								<td class="text-center" ng-repeat="title in titles">
+									<span ng-if="wordArr[title]">
+										<span class="glyphicon glyphicon-ok"></span>
+									</span>
+									<span ng-if="!wordArr[title]">
+										<span class="glyphicon glyphicon-remove"></span>
+									</span>
+								</td>
 							</tr>
 						</tbody>
 					</table>
