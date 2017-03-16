@@ -16,12 +16,19 @@ myApp.controller('homeController',
    * that has been read
    * @return {Array} array of documents in book
    */
-    const updateFiles = currentFile => new Promise((resolve) => {
+    const updateFiles = (currentFile) =>
+       new Promise((resolve) => {
       const reader = new FileReader();
+      let result;
       reader.readAsText(currentFile);
       reader.onload = (e) => {
-        resolve(JSON.parse(e.target.result));
-      };
+        try{
+          result = JSON.parse(e.target.result);
+          } catch (error) {
+          return null;
+        };
+        resolve(result);
+    }
     });
 
   /** handles the file uploads on user request
@@ -31,15 +38,15 @@ myApp.controller('homeController',
    * @param  {Array} contents - an array of uploaded books contents.
    * @return {Array} array of boolean to signify uploads success of failure.
    */
-    const uploadFiles = (books, files) => {
+    const uploadFiles = (books, files, alerts) => {
       for (const file of files) {
         if (helpers.fileIsValid(file)) {
           const fileNames = Object.keys(books).map(book => books[book].name);
           if (!(fileNames.includes(file.name))) {
-            updateFiles(file)
+            updateFiles(file, alerts)
             .then((content) => {
               file.content = content;
-            });
+            })
             books[file.name] = file;
           }
         } else {
@@ -59,7 +66,7 @@ myApp.controller('homeController',
         filesArray = element.files;
         let validationResult = true;
         validationResult = uploadFiles($scope.files,
-         filesArray);
+         filesArray, $scope.alerts);
         if (validationResult[0] === false) {
           $scope.alerts(true, `unable to upload. ${validationResult[1].name}
            is not a valid json file`);
@@ -83,31 +90,31 @@ myApp.controller('homeController',
           $scope.indexedFiles =
           invertedIndex.createIndex($scope.files,
           file, $scope.alerts);
-          $rootScope.titles[file] = Object.values($scope.indexedFiles[file])[0]
-            .map((title, index) => {
-              return index;
-          });
-        $scope.titles = $rootScope.titles;
+          $scope.titles = $rootScope.titles;
           if ($scope.indexedFiles === null) {
             $scope.alerts(true, `invalid file content format.
             ${$scope.selected} please upload a valid file`);
             return null;
           }
+          $rootScope.titles[file] = Object.values($scope.indexedFiles[file])[0]
+           .map((title, index) => {
+             return index;
+          });
         });
       } else {
         $scope.indexedFiles =
         invertedIndex.createIndex($scope.files,
         $scope.selected);
-        $rootScope.titles[$scope.selected] = Object.values($scope.indexedFiles[$scope.selected])[0]
-          .map((title, index) => {
-            return index;
-        });
-        $scope.titles = $rootScope.titles;
         if ($scope.indexedFiles === null) {
           $scope.alerts(true, `invalid file content format.
           ${$scope.selected} please upload a valid file`);
           return null;
         }
+        $rootScope.titles[$scope.selected] = Object.values($scope.indexedFiles[$scope.selected])[0]
+          .map((title, index) => {
+            return index;
+        });
+        $scope.titles = $rootScope.titles;
       }
       $location.path('/show-index');
       return true;
