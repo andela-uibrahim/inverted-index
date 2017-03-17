@@ -1,0 +1,24 @@
+<div ng-repeat="(file, searchResult) in searches">
+	<span ><strong> results for documents in {{file}}<strong></span>
+	<table class="table table-striped table-bordered  table-hover">
+		<thead>
+			<tr>
+				<th class="text-center">Word</th>
+				<th class="text-center" ng-repeat="title in titles[file]">Doc_{{title + 1}}</th>
+			</tr>
+		</thead>
+		<tbody class="table-content">
+			<tr ng-repeat="(word, wordArr) in  searchResult">
+				<td class="text-center">{{word}}</td>
+				<td class="text-center" ng-repeat="title in titles[file]">
+					<span ng-if="wordArr[title]">
+						<span class="glyphicon glyphicon-ok"></span>
+					</span>
+					<span ng-if="!wordArr[title]">
+						<span class="glyphicon glyphicon-remove"></span>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
