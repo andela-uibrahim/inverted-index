@@ -97,3 +97,11 @@
 .select span{
 	color: #428bca;
 }
+
+.alertClass {
+	height: 200px; 
+};
+.aboutfile {
+	font-size: 60px;
+	font-weight: bold;
+}

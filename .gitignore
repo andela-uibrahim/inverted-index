@@ -2,3 +2,4 @@
 /lib
 /coverage
 /public/bootstrap
+/spec/InvertedIndex.spec.bundled.js

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node node_modules/gulp/bin/gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/gulp/bin/gulp runtests"
   },
   "repository": {
     "type": "git",
@@ -15,11 +15,6 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/andela-uibrahim/inverted-index/issues"
-  },
-
-  "engines": {
-    "node": "6.9.5",
-    "npm": "3.10.10"
   },
   "homepage": "https://github.com/andela-uibrahim/inverted-index#readme",
   "devDependencies": {
@@ -42,8 +37,11 @@
     "karma-verbose-reporter": "0.0.5"
   },
   "dependencies": {
+    "browser-sync": "^2.18.7",
+    "browserify": "^14.1.0",
     "express": "^4.14.1",
     "gulp": "^3.9.1",
-    "browser-sync": "^2.18.7"
+    "vinyl-source-stream": "^1.1.0",
+    "karma": "^1.4.1"
   }
 }

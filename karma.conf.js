@@ -18,9 +18,9 @@ module.exports = (config) => {
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js',
       'https://code.angularjs.org/1.6.1/angular-route.min.js',
       'public/js/helper.js',
-      'public/js/inverted_index.js',
-      'public/js/inverted_indexUI.js',
-      'spec/*.js'
+      'public/js/InvertedIndex.js',
+      'public/js/InvertedIndexUI/*.js',
+      'spec/InvertedIndex.spec.bundled.js'
     ],
 
 
@@ -33,7 +33,6 @@ module.exports = (config) => {
 // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 
     preprocessors: {
-        // 'spec/*.js': ['coverage']
       'public/js/*.js': ['coverage']
     },
 
